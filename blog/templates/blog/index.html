@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog homepage with the latest postss">
+    <title>Homepage</title>
+</head>
+<body>
+    <header>
+        <h1>Hello, World! Welcome to my blog.</h1>
+    </header>
+
+    <main>
+        {% if latest_post_list %}
+            <ul>
+                {% for post in latest_post_list %}
+                    <li><a href="{% url 'blog:detail' post.id %}">{{ post.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p></p>
+    </footer>
+</body>
+</html>

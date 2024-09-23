@@ -31,7 +31,7 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name="category",
+        related_name="categories",
     )
     tags = models.ManyToManyField(Tag, blank=True)
     pub_date = models.DateTimeField(
