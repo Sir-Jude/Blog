@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=255)),
                 ("text", models.TextField()),
                 (
-                    "created_date",
+                    "pub_date",
                     models.DateTimeField(
                         default=django.utils.timezone.now, editable=False
                     ),

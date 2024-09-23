@@ -4,9 +4,11 @@ from django.utils import timezone
 
 # Register your models here.
 
+
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_date', 'last_edited')
-    list_filter = ('created_date', 'last_edited')
-    readonly_fields = ('created_date', 'last_edited')
+    list_display = ("title", "pub_date", "last_edited")
+    list_filter = ("pub_date", "last_edited")
+    readonly_fields = ("pub_date", "last_edited")
+
 
 admin.site.register(Post, PostAdmin)
