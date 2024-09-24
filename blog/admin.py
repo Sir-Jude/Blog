@@ -12,7 +12,10 @@ class PostAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Post", {"fields": ["title", "text"]}),
         ("Categorization", {"fields": ["category", "tags"]}),
-        ("Date information", {"fields": ["pub_date", "last_edited"], "classes": ["collapse"]}),
+        (
+            "Date information",
+            {"fields": ["pub_date", "last_edited"], "classes": ["collapse"]},
+        ),
     ]
     list_display = ["title", "pub_date", "last_edited"]
     list_filter = ["pub_date", "last_edited"]

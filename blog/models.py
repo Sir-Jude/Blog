@@ -31,9 +31,11 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name="categories",
+        related_name="%(app_label)s_%(class)s_related",
     )
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(
+        Tag, blank=True, related_name="%(app_label)s_%(class)s_related"
+    )
     pub_date = models.DateTimeField(
         default=timezone.now, editable=False
     )  # Auto-set on creation
@@ -48,15 +50,25 @@ class Post(models.Model):
     )
     def was_published_recently(self):
         now = timezone.now().date()
+        # Check if the post was published within the last 30 days.
         return now - datetime.timedelta(days=30) <= self.pub_date <= now
 
     def save(self, *args, **kwargs):
-        if self.pk is not None:  # Check if the object exists (not a new post)
+        # Check if the object exists (not a new post)
+        if self.pk is not None:
             original_post = Post.objects.get(pk=self.pk)
+            # Update last_edited only if title or text has changed
             if original_post.title != self.title or original_post.text != self.text:
                 self.last_edited = timezone.now()
         else:
-            self.last_edited = None
+            self.last_edited = None  # For new posts, last_edited should be None
+
+        # Ensure that last_edited is included in update_fields if it has changed,
+        # otherwise it will not be updated in the DB.
+        update_fields = kwargs.get("update_fields")
+        if update_fields is not None and "last_edited" not in update_fields:
+            update_fields = {"last_edited"}.union(update_fields)
+            kwargs["update_fields"] = update_fields
 
         super().save(*args, **kwargs)
 
@@ -66,10 +78,17 @@ class Post(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="comments", null=False
+        User,
+        on_delete=models.CASCADE,
+        related_name="%(app_label)s_%(class)s_related",
+        null=False,
     )
     post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name="comments", null=True, blank=True
+        Post,
+        on_delete=models.CASCADE,
+        related_name="%(app_label)s_%(class)s_related",
+        null=True,
+        blank=True,
     )
     text = models.TextField()
     pub_date = models.DateTimeField(
