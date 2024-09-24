@@ -9,8 +9,8 @@ from .models import Category, Tag, Post, Comment
 # Create your views here.
 
 
-class IndexView(generic.ListView):
-    template_name = "blog/index.html"
+class HomeView(generic.ListView):
+    template_name = "blog/home.html"
     context_object_name = "latest_post_list"
 
     def get_queryset(self):
@@ -36,15 +36,12 @@ class DetailView(generic.DetailView):
         return Post.objects.filter(pub_date__lte=timezone.now())
 
 
-class PostView(generic.DetailView):
+class CommentView(generic.DetailView):
     model = Post
     template_name = "blog/post.html"
 
-    def create_new_post(request):
-        pass
-
-    def modify_post(request, post_id):
-        pass
-
-    def write_comment(request, post_id):
+    def write(request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
+    
+    def edit (request, post_id):
         post = get_object_or_404(Post, pk=post_id)

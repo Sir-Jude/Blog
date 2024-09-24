@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Detail view of the actual post">
-    <title>Detail</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'blog/base.html' %}
+{% block title %}
+  <title>{{ post.title }}</title>
+{% endblock title %}
+{% block content %}
+  <h2><strong>{{ post.title }}</strong></h2>
+  <br>
+  <h3>{{ post.text }}</h3>
+  <br><br>
+  <a href="{% url 'blog:home' %}" class="btn btn-secondary">Back</a>
+{% endblock content %}
