@@ -3,6 +3,7 @@ import datetime
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 import textwrap
@@ -53,6 +54,9 @@ class Post(models.Model):
         # Check if the post was published within the last 30 days.
         return now - datetime.timedelta(days=30) <= self.pub_date <= now
 
+    def get_absolute_url(self):
+        return reverse("blog:detail", args=[self.pk])
+    
     def save(self, *args, **kwargs):
         # Check if the object exists (not a new post)
         if self.pk is not None:

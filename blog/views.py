@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.views import generic
@@ -34,6 +34,13 @@ class DetailView(generic.DetailView):
         Excludes any posts that aren't published yet.
         """
         return Post.objects.filter(pub_date__lte=timezone.now())
+
+
+class NewPostView(generic.CreateView):
+    model = Post
+    template_name = "blog/new_post.html"
+    fields = "__all__"
+    
 
 
 class CommentView(generic.DetailView):

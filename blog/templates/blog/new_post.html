@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+{% block title %}
+  New post
+{% endblock title %}
+{% block content %}
+  <form method="POST">
+    {% csrf_token %}
+    <fieldset>
+      <legend><h2>Write a new post...</h2></legend>
+      <br><br>
+      {{ form.as_p }}
+    </fieldset>
+    <button type="submit" class="btn btn-success">Post</button>
+  </form>
+{% endblock content %}
