@@ -6,6 +6,15 @@
   <h2><strong>{{ post.title }}</strong></h2>
   <br>
   <h3>{{ post.text }}</h3>
+  <br>
+  <h6>Category: {{ post.category }}</h5>
+    <h6>Tags: 
+      {% for tag in post.tags.all %}
+          {{ tag.name }}{% if not forloop.last %}, {% endif %}
+      {% empty %}
+          No tags
+      {% endfor %}
+  </h6>
   <br><br>
   <a href="{% url 'blog:home' %}" class="btn btn-primary">Back</a>
 {% endblock content %}

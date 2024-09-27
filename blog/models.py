@@ -56,7 +56,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("blog:detail", args=[self.pk])
-    
+
     def save(self, *args, **kwargs):
         # Check if the object exists (not a new post)
         if self.pk is not None:

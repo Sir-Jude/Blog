@@ -1,9 +1,10 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
+from .forms import NewPostForm
 from .models import Category, Tag, Post, Comment
 
 # Create your views here.
@@ -38,9 +39,25 @@ class DetailView(generic.DetailView):
 
 class NewPostView(generic.CreateView):
     model = Post
+    form_class = NewPostForm
     template_name = "blog/new_post.html"
-    fields = "__all__"
-    
+
+    def get_success_url(self):
+        """
+        Returns the URL to redirect to after a successful form submission.
+
+        This method uses "reverse_lazy" instead of "reverse" to defer the
+        URL resolution until after the object has been created and has a#
+        primary key (`pk`).
+
+        Returns:
+            str: The URL to the detail view of the created post.
+        """
+        return reverse_lazy("blog:detail", args=[self.object.pk])
+
+    def form_valid(self, form):
+        # You can add any extra logic here before the form is saved if needed
+        return super().form_valid(form)
 
 
 class CommentView(generic.DetailView):
@@ -49,6 +66,6 @@ class CommentView(generic.DetailView):
 
     def write(request, post_id):
         post = get_object_or_404(Post, pk=post_id)
-    
-    def edit (request, post_id):
+
+    def edit(request, post_id):
         post = get_object_or_404(Post, pk=post_id)
