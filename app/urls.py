@@ -22,7 +22,9 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("blog/", include("blog.urls")),
+    path("", include("blog.urls")),
+    path("registration/", include("django.contrib.auth.urls")),
+    path("registration/", include("registration.urls")),
 ]
 
 if not settings.TESTING:

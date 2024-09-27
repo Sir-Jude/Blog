@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "blog",
+    "registration",
 ]
 
 # Add debug toolbar only when not running tests
@@ -143,3 +144,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+LOGIN_REDIRECT_URL = 'blog:home'
+LOGOUT_REDIRECT_URL = 'blog:home'

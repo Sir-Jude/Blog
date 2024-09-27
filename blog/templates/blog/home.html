@@ -1,32 +1,38 @@
 {% extends 'blog/base.html' %}
 {% block title %}
-  Homepage
+Homepage
 {% endblock title %}
 {% block content %}
-    <header>
-        <h1>Hello, World! Welcome to my blog.</h1>
-    </header>
+<header>
+  <h1>Hello, World! Welcome to my blog.</h1>
+</header>
 
-    <main>
-        {% if latest_post_list %}
-            <ul>
-                {% for post in latest_post_list %}
-                    <li>
-                        <h5><a href="{% url 'blog:detail' post.id %}"><strong>{{ post.title }}</strong></a></h5>
-                        Posted on the: {{ post.pub_date }}
-                        <br>
-                        <small>
-                            (<a href="{% url 'blog:edit_post' post.id %}">Edit</a>)
-                            (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
-                        </small>
-                        <br><br>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </main>
+<main>
+  {% if latest_post_list %}
+  <ul>
+    {% for post in latest_post_list %}
+    <li>
+      <h5>
+        <a href="{% url 'blog:detail' post.id %}"><strong>{{ post.title }}</strong></a>
+      </h5>
+      {{ post.text|slice:"200" }}...
+      <br/>
+      Posted on the: {{ post.pub_date }}
+      <br/>
+      {% if user.is_authenticated %}
+        <small>
+          (<a href="{% url 'blog:edit_post' post.id %}">Edit</a>)
+          (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
+        </small>
+      {% endif %}
+      <br/><br/>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</main>
 
-    <footer>
-        <p></p>
-    </footer>
+<footer>
+  <p></p>
+</footer>
 {% endblock content %}

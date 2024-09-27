@@ -3,6 +3,7 @@
   Edit post
 {% endblock title %}
 {% block content %}
+{% if user.is_authenticated %}
   <div class="form-group">
     <form method="POST">
       {% csrf_token %}
@@ -14,5 +15,8 @@
       <button type="submit" class="btn btn-success">Update</button>
       <a href="{% url 'blog:detail' post.pk %}" class="btn btn-secondary">Cancel</a>
     </form>
-  </div>  
+  </div>
+{% else %}
+You are not allowed here.
+{% endif %}
 {% endblock content %}
