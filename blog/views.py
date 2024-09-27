@@ -1,11 +1,10 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
-from .forms import NewPostForm
-from .models import Category, Tag, Post, Comment
+from .forms import PostForm, EditPostForm
+from .models import Post
 
 # Create your views here.
 
@@ -39,7 +38,7 @@ class DetailView(generic.DetailView):
 
 class NewPostView(generic.CreateView):
     model = Post
-    form_class = NewPostForm
+    form_class = PostForm
     template_name = "blog/new_post.html"
 
     def get_success_url(self):
@@ -57,6 +56,19 @@ class NewPostView(generic.CreateView):
 
     def form_valid(self, form):
         # You can add any extra logic here before the form is saved if needed
+        return super().form_valid(form)
+    
+
+class EditPostView(generic.UpdateView):
+    model = Post
+    template_name = "blog/edit_post.html"
+    form_class = EditPostForm
+    
+    
+    def get_success_url(self):
+        return reverse_lazy("blog:detail", args=[self.object.pk])
+    
+    def form_valid(self, form):
         return super().form_valid(form)
 
 

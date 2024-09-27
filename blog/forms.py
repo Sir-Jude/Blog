@@ -2,7 +2,7 @@ from django import forms
 from .models import Post, Category, Tag
 
 
-class NewPostForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
     # Allow input of category name as text
     category = forms.CharField(max_length=50, required=False)
     # Allow input of tags as comma-separated values
@@ -53,3 +53,20 @@ class NewPostForm(forms.ModelForm):
             post.tags.add(tag)
 
         return post
+
+class EditPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ("title", "text")
+
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control"}),
+            "text": forms.Textarea(attrs={"class": "form-control"}),
+        }
+        
+    def save(self, commit=True):
+        # Save post instance first
+        post = super().save(commit=False)
+
+        if commit:
+            post.save()

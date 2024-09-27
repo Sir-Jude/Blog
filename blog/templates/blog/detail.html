@@ -5,7 +5,7 @@
 {% block content %}
   <h2><strong>{{ post.title }}</strong></h2>
   <br>
-  <h3>{{ post.text }}</h3>
+  <h5>{{ post.text }}</h5>
   <br>
   <h6>Category: {{ post.category }}</h5>
     <h6>Tags: 
@@ -14,7 +14,9 @@
       {% empty %}
           No tags
       {% endfor %}
+      <br><br>
+      <small>(<a href="{% url 'blog:edit_post' post.id%}">Edit</a>)</small>
   </h6>
-  <br><br>
+  <br>
   <a href="{% url 'blog:home' %}" class="btn btn-primary">Back</a>
 {% endblock content %}

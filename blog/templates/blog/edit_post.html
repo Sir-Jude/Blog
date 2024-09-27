@@ -1,18 +1,18 @@
 {% extends 'blog/base.html' %}
 {% block title %}
-  New post
+  Edit post
 {% endblock title %}
 {% block content %}
   <div class="form-group">
     <form method="POST">
       {% csrf_token %}
       <fieldset>
-        <legend><h2>Write a new post...</h2></legend>
+        <legend><h2>Edit the post...</h2></legend>
         <br><br>
         {{ form.as_p }}
       </fieldset>
-      <button type="submit" class="btn btn-success">Post</button>
-      <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>
+      <button type="submit" class="btn btn-success">Update</button>
+      <a href="{% url 'blog:detail' post.pk %}" class="btn btn-secondary">Cancel</a>
     </form>
   </div>  
 {% endblock content %}
