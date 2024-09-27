@@ -12,6 +12,7 @@ from .models import Post
 class HomeView(generic.ListView):
     template_name = "blog/home.html"
     context_object_name = "latest_post_list"
+    ordering = ['-pub_date']
 
     def get_queryset(self):
         """
@@ -64,13 +65,23 @@ class EditPostView(generic.UpdateView):
     template_name = "blog/edit_post.html"
     form_class = EditPostForm
     
-    
     def get_success_url(self):
         return reverse_lazy("blog:detail", args=[self.object.pk])
     
     def form_valid(self, form):
         return super().form_valid(form)
+    
 
+class DeletePostView(generic.DeleteView):
+    model = Post
+    template_name = "blog/delete_post.html"
+    
+    def get_success_url(self):
+        return reverse_lazy("blog:home")
+    
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
 
 class CommentView(generic.DetailView):
     model = Post

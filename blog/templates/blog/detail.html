@@ -7,6 +7,8 @@
   <br>
   <h5>{{ post.text }}</h5>
   <br>
+  Posted on the: {{ post.pub_date }}
+  <br><br>
   <h6>Category: {{ post.category }}</h5>
     <h6>Tags: 
       {% for tag in post.tags.all %}
@@ -15,7 +17,11 @@
           No tags
       {% endfor %}
       <br><br>
-      <small>(<a href="{% url 'blog:edit_post' post.id%}">Edit</a>)</small>
+      
+      <small>
+        (<a href="{% url 'blog:edit_post' post.id%}">Edit</a>)
+        (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
+      </small>
   </h6>
   <br>
   <a href="{% url 'blog:home' %}" class="btn btn-primary">Back</a>

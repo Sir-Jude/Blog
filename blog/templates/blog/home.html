@@ -12,9 +12,14 @@
             <ul>
                 {% for post in latest_post_list %}
                     <li>
-                        <a href="{% url 'blog:detail' post.id %}"><strong>{{ post.title }}</strong></a>
+                        <h5><a href="{% url 'blog:detail' post.id %}"><strong>{{ post.title }}</strong></a></h5>
+                        Posted on the: {{ post.pub_date }}
                         <br>
-                        <small>(<a href="{% url 'blog:edit_post' post.id%}">Edit</a>)</small>
+                        <small>
+                            (<a href="{% url 'blog:edit_post' post.id %}">Edit</a>)
+                            (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
+                        </small>
+                        <br><br>
                     </li>
                 {% endfor %}
             </ul>
