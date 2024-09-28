@@ -4,27 +4,24 @@
 {% endblock title %}
 {% block content %}
   <p>
-    <h2><strong>{{ post.title }}</strong></h2>
+    <h3 style="display: inline;"><strong>{{ post.title }}</strong></h3>
+    <small style="display: inline;">
+      - 
+      {% if post.category %}
+        <a href="{% url 'blog:category' post.category.name %}">{{ post.category.name }}</a>
+      {% else %}
+        No Category
+      {% endif %}
+    </small>
   </p>
   <p>
-    <h5>{{ post.text|safe }}</h5>
+    <h6>{{ post.text|safe }}</h6>
   </p>
   <p>
     Posted on the: {{ post.pub_date }}
   </p>
   <p>
     Last modified on: {{ post.last_edited }}
-  </p>
-  <p>
-    <h6>Category: {{ post.category }}</h6>
-    <h6>
-      Tags: 
-        {% for tag in post.tags.all %}
-            {{ tag.name }}{% if not forloop.last %}, {% endif %}
-        {% empty %}
-            No tags
-        {% endfor %}
-    </h6>
   </p>
   <p>
     {% if user.is_authenticated and user.is_superuser %}

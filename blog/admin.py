@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment, Category, Tag
+from .models import Post, Comment, Category
 
 # Register your models here.
 
@@ -11,7 +11,7 @@ class CommentInLine(admin.TabularInline):
 class PostAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Post", {"fields": ["title", "text"]}),
-        ("Categorization", {"fields": ["category", "tags"]}),
+        ("Categorization", {"fields": ["category"]}),
         (
             "Date information",
             {"fields": ["pub_date", "last_edited"], "classes": ["collapse"]},
@@ -25,4 +25,3 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Category)
 admin.site.register(Post, PostAdmin)
-admin.site.register(Tag)

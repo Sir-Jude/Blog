@@ -1,6 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block title %}
-  Delete post
+  New category
 {% endblock title %}
 {% block content %}
 {% if user.is_authenticated and user.is_superuser %}
@@ -8,14 +8,12 @@
     <form method="POST">
       {% csrf_token %}
       <fieldset>
+        <legend><h2>Add a new category...</h2></legend>
         <p>
-          <legend><h2>Delete: "{{ post.title }}"</h2></legend>
-        </p>
-        <p>
-          <strong>Are you sure you would like to delete it?!</strong>
+          {{ form.as_p }}
         </p>
       </fieldset>
-      <button type="submit" class="btn btn-danger">Delete</button>
+      <button type="submit" class="btn btn-success">Add</button>
       <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>
     </form>
   </div>

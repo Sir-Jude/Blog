@@ -13,16 +13,12 @@ import textwrap
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
+    def get_absolute_url(self):
+        return reverse('blog:home')
+    
     def __str__(self):
         return self.name
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
+    
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
@@ -33,9 +29,6 @@ class Post(models.Model):
         blank=True,
         null=True,
         related_name="%(app_label)s_%(class)s_related",
-    )
-    tags = models.ManyToManyField(
-        Tag, blank=True, related_name="%(app_label)s_%(class)s_related"
     )
     pub_date = models.DateTimeField(
         default=timezone.now, editable=False

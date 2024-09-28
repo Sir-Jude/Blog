@@ -1,10 +1,10 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
 from .forms import PostForm, EditPostForm
-from .models import Post
+from .models import Post, Category
 
 # Create your views here.
 
@@ -24,6 +24,23 @@ class HomeView(generic.ListView):
         return Post.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[
             :5
         ]
+    
+    def get_context_data(self, *args, **kwargs):
+        category_menu = Category.objects.all()
+        context = super(HomeView, self).get_context_data(*args, **kwargs)
+        context["category_menu"] = category_menu
+        return context
+
+
+def CategoryListView(request):
+    category_menu_list = Category.objects.all()
+    return render(request, 'blog/category-list.html', {'category_menu_list': category_menu_list})
+
+
+def CategoryView(request, cats):
+    category_posts = Post.objects.filter(category__name=cats)  # Use category__name to filter by name
+    return render(request, 'blog/categories.html', {'cats': cats, 'category_posts': category_posts})
+
 
 
 class DetailView(generic.DetailView):
@@ -60,6 +77,17 @@ class NewPostView(generic.CreateView):
         return super().form_valid(form)
     
 
+class NewCategoryView(generic.CreateView):
+    model = Category
+    template_name = "blog/new_category.html"
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse_lazy("blog:detail", args=[self.object.pk])
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
 class EditPostView(generic.UpdateView):
     model = Post
     template_name = "blog/edit_post.html"

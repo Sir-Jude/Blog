@@ -1,24 +1,22 @@
 from django import forms
-from .models import Post, Category, Tag
+from .models import Post, Category
 
+choices = Category.objects.all().values_list('name', 'name')
+
+choice_list = []
+
+for cat in choices:
+    choice_list.append(cat)
 
 class PostForm(forms.ModelForm):
-    # Allow input of category name as text
-    category = forms.CharField(max_length=50, required=False)
-    # Allow input of tags as comma-separated values
-    tags = forms.CharField(
-        max_length=255, required=False, help_text="Separate tags with commas"
-    )
-
     class Meta:
         model = Post
-        fields = ("title", "text", "category", "tags")
+        fields = ("title", "text", "category")
 
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "text": forms.Textarea(attrs={"class": "form-control"}),
-            "category": forms.TextInput(attrs={"class": "form-control"}),
-            "tags": forms.TextInput(attrs={"class": "form-control"}),
+            "category": forms.Select(choices=choice_list, attrs={"class": "form-control"}),
         }
 
     def clean_category(self):
@@ -32,25 +30,12 @@ class PostForm(forms.ModelForm):
             return category
         return None
 
-    def clean_tags(self):
-        # Retrieves the cleaned data from the tags field
-        tags_string = self.cleaned_data.get("tags", "")
-        # Split it in individual tag names using "," and trims any whitespace
-        tag_names = [tag.strip() for tag in tags_string.split(",") if tag.strip()]
-        return tag_names
-
     def save(self, commit=True):
         # Save post instance first
         post = super().save(commit=False)
 
         if commit:
             post.save()
-
-        # Handle tags separately (after the post is saved to get a post ID)
-        tags = self.cleaned_data.get("tags")
-        for tag_name in tags:
-            tag, _ = Tag.objects.get_or_create(name=tag_name)
-            post.tags.add(tag)
 
         return post
 

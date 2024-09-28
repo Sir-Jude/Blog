@@ -1,16 +1,15 @@
 {% extends 'blog/base.html' %}
 {% block title %}
-Homepage
+Categories
 {% endblock title %}
 {% block content %}
+{% if category_posts %}
 <header>
-  <h1>Hello, World! Welcome to my blog.</h1>
+  <h2>Category: "{{ cats }}"</h2>
 </header>
-
 <main>
-  {% if latest_post_list %}
   <ul>
-    {% for post in latest_post_list %}
+    {% for post in category_posts %}
     <li class="mb-5">
       <div>
         <h4 style="display: inline;">
@@ -18,15 +17,6 @@ Homepage
             <strong>{{ post.title }}</strong>
           </a>
         </h4>
-        <small style="display: inline;">
-          - 
-          {% if post.category %}
-            <a href="{% url 'blog:category' post.category.name %}">{{ post.category.name }}</a>
-          {% else %}
-            No Category
-          {% endif %}
-        </small>        
-      </div>
       <p>{{ post.text|slice:"200"|safe }}...</p>
       <p>Posted on the: {{ post.pub_date }}</p>
       <p>Last modified on: {{ post.last_edited }}</p>
@@ -41,8 +31,10 @@ Homepage
     </li>
     {% endfor %}
   </ul>
-  {% endif %}
 </main>
+{% else %}
+<h2>Sorry, this category has not yet been created...</h2>
+{% endif %}
 <footer>
   <p></p>
 </footer>

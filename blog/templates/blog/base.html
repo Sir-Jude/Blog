@@ -17,7 +17,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">My blog</a>
+        <a class="navbar-brand" href="{% url 'blog:home' %}">My blog</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -32,54 +32,74 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item me-2">
-              <a
-                href="{% url 'blog:home' %}"
-                class="btn btn-outline-light me-2"
-                style="padding: 0; margin: 0; border: none"
-                >Home</a
-              >
+              {% if category_menu %}
+                <div class="nav-item dropdown me-2">
+                  <a class="btn btn-outline-light dropdown-toggle me-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categories
+                  </a>
+                  <ul class="dropdown-menu">
+                    {% for item in category_menu %}
+                      <a class="dropdown-item" href="{% url 'blog:category' item %}">{{ item }}</a>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% else %}
+              <li class="nav-item me-2">
+                <a
+                  href="{% url 'blog:category-list' %}"
+                  class="btn btn-outline-light me-2"
+                  style="padding: 0; margin: 0; border: none"
+                >Category list</a>
+              </li>
+              {% endif %}
             </li>
-            {% if user.is_authenticated %}
-              {% if user.is_superuser  %}
+            <div class="d-flex align-items-center">
+              {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                  <li class="nav-item me-2">
+                    <a
+                      href="{% url 'blog:new_post' %}"
+                      class="btn btn-outline-light me-2"
+                      style="padding: 0; margin: 0; border: none"
+                    >New post</a>
+                  </li>
+                  <li class="nav-item me-2">
+                    <a
+                      href="{% url 'blog:add_category' %}"
+                      class="btn btn-outline-light me-2"
+                      style="padding: 0; margin: 0; border: none"
+                    >Add category</a>
+                  </li>
+                {% endif %}
+                <li class="nav-item">
+                  <form method="POST" action="{% url 'logout' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button
+                      type="submit"
+                      class="btn btn-outline-light me-2"
+                      style="padding: 0; margin: 0; border: none"
+                    >
+                      Logout
+                    </button>
+                  </form>
+                </li>
+              {% else %}
                 <li class="nav-item me-2">
                   <a
-                    href="{% url 'blog:new_post' %}"
+                    href="{% url 'registration:register' %}"
                     class="btn btn-outline-light me-2"
                     style="padding: 0; margin: 0; border: none"
-                    >New post</a
-                  >
+                  >Register</a>
+                </li>
+                <li class="nav-item me-2">
+                  <a
+                    href="{% url 'login' %}"
+                    class="btn btn-outline-light me-2"
+                    style="padding: 0; margin: 0; border: none"
+                  >Login</a>
                 </li>
               {% endif %}
-              <li class="nav-item">
-                <form method="POST" action="{% url 'logout' %}" class="d-inline">
-                  {% csrf_token %}
-                  <button
-                    type="submit"
-                    class="btn btn-outline-light me-2"
-                    style="padding: 0; margin: 0; border: none"
-                  >
-                    Logout
-                  </button>
-                </form>
-              </li>
-            {% else %}
-            <li class="nav-item me-2">
-              <a
-                href="{% url 'registration:register' %}"
-                class="btn btn-outline-light me-2"
-                style="padding: 0; margin: 0; border: none"
-                >Register</a
-              >
-            </li>
-            <li class="nav-item me-2">
-              <a
-                href="{% url 'login' %}"
-                class="btn btn-outline-light me-2"
-                style="padding: 0; margin: 0; border: none"
-                >Login</a
-              >
-            </li>
-            {% endif %}
+            </div>
           </ul>
           <form class="d-flex">
             <input
