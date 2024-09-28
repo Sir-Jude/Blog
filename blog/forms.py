@@ -21,8 +21,7 @@ class PostForm(forms.ModelForm):
 
     def clean_category(self):
         # Retrieves the cleaned data from the category field
-        #   removing any leading or trailing whitespace
-        category_name = self.cleaned_data.get("category", "").strip()
+        category_name = self.cleaned_data.get("category", "")
         # If author of the post provides a category...
         if category_name:
             # ...fetch it from DB or create it if not exist yet...

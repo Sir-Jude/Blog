@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -33,13 +34,18 @@ class HomeView(generic.ListView):
 
 
 def CategoryListView(request):
-    category_menu_list = Category.objects.all()
+    category_menu_list = Category.objects.all().order_by('name')
     return render(request, 'blog/category-list.html', {'category_menu_list': category_menu_list})
 
 
 def CategoryView(request, cats):
-    category_posts = Post.objects.filter(category__name=cats)  # Use category__name to filter by name
-    return render(request, 'blog/categories.html', {'cats': cats, 'category_posts': category_posts})
+    # Adjust this line to filter correctly by category name
+    category_posts = Post.objects.filter(category__name=cats.replace('-', ' '))
+    
+    return render(request, 'blog/categories.html', {
+        'cats': cats.title().replace('-', ' '), 
+        'category_posts': category_posts
+    })
 
 
 
@@ -83,9 +89,17 @@ class NewCategoryView(generic.CreateView):
     fields = '__all__'
 
     def get_success_url(self):
-        return reverse_lazy("blog:detail", args=[self.object.pk])
+        return reverse_lazy("blog:category-list")
 
     def form_valid(self, form):
+        # Get the category name
+        category_name = form.cleaned_data.get('name').strip()
+
+        # Check if the category already exists (case insensitive)
+        if Category.objects.filter(name__iexact=category_name).exists():
+            messages.error(self.request, f'Category "{category_name}" already exists.')
+            return self.form_invalid(form)  # Return invalid form to show the error
+
         return super().form_valid(form)
     
 class EditPostView(generic.UpdateView):

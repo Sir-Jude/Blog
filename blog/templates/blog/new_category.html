@@ -4,6 +4,13 @@
 {% endblock title %}
 {% block content %}
 {% if user.is_authenticated and user.is_superuser %}
+  {% if messages %}
+      <div class="alert alert-warning" role="alert">
+          {% for message in messages %}
+              {{ message }}
+          {% endfor %}
+      </div>
+  {% endif %}
   <div class="form-group">
     <form method="POST">
       {% csrf_token %}
