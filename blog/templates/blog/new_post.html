@@ -3,14 +3,15 @@
   New post
 {% endblock title %}
 {% block content %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user.is_superuser %}
   <div class="form-group">
     <form method="POST">
       {% csrf_token %}
       <fieldset>
         <legend><h2>Write a new post...</h2></legend>
-        <br><br>
-        {{ form.as_p }}
+        <p>
+          {{ form.as_p }}
+        </p>
       </fieldset>
       <button type="submit" class="btn btn-success">Post</button>
       <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>

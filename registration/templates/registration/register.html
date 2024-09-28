@@ -8,8 +8,9 @@
       {% csrf_token %}
       <fieldset>
         <legend><h2>Register...</h2></legend>
-        <br><br>
-        {{ form.as_p }}
+        <p>
+          {{ form.as_p }}
+        </p>
       </fieldset>
       <button type="submit" class="btn btn-success">Register</button>
     </form>

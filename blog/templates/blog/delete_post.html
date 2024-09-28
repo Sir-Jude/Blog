@@ -3,15 +3,17 @@
   Delete post
 {% endblock title %}
 {% block content %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user.is_superuser %}
   <div class="form-group">
     <form method="POST">
       {% csrf_token %}
       <fieldset>
-        <legend><h2>Delete: "{{ post.title }}"</h2></legend>
-        <br><br>
-        <strong>Are you sure you would like to delete it?!</strong>
-        <br><br>
+        <p>
+          <legend><h2>Delete: "{{ post.title }}"</h2></legend>
+        </p>
+        <p>
+          <strong>Are you sure you would like to delete it?!</strong>
+        </p>
       </fieldset>
       <button type="submit" class="btn btn-success">Delete</button>
       <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>

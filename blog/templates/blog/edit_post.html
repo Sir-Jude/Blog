@@ -3,14 +3,15 @@
   Edit post
 {% endblock title %}
 {% block content %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user.is_superuser %}
   <div class="form-group">
     <form method="POST">
       {% csrf_token %}
       <fieldset>
         <legend><h2>Edit the post...</h2></legend>
-        <br><br>
-        {{ form.as_p }}
+        <p>
+          {{ form.as_p }}
+        </p>
       </fieldset>
       <button type="submit" class="btn btn-success">Update</button>
       <a href="{% url 'blog:detail' post.pk %}" class="btn btn-secondary">Cancel</a>
