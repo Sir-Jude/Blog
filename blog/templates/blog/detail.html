@@ -7,10 +7,13 @@
     <h2><strong>{{ post.title }}</strong></h2>
   </p>
   <p>
-    <h5>{{ post.text }}</h5>
+    <h5>{{ post.text|safe }}</h5>
   </p>
   <p>
     Posted on the: {{ post.pub_date }}
+  </p>
+  <p>
+    Last modified on: {{ post.last_edited }}
   </p>
   <p>
     <h6>Category: {{ post.category }}</h6>

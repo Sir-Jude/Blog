@@ -64,11 +64,12 @@ class EditPostView(generic.UpdateView):
     model = Post
     template_name = "blog/edit_post.html"
     form_class = EditPostForm
-    
+
     def get_success_url(self):
-        return reverse_lazy("blog:detail", args=[self.object.pk])
-    
+        return reverse_lazy('blog:home')
+
     def form_valid(self, form):
+        # You can perform additional actions here if needed
         return super().form_valid(form)
     
 

@@ -10,24 +10,23 @@ Homepage
 <main>
   {% if latest_post_list %}
   <ul>
-    {% for post in latest_post_list %}
-    <li>
-      <h5>
-        <a href="{% url 'blog:detail' post.id %}"><strong>{{ post.title }}</strong></a>
-      </h5>
-      {{ post.text|slice:"200" }}...
-      <p>
-      Posted on the: {{ post.pub_date }}
-      <p/>
-      {% if user.is_authenticated and user.is_superuser %}
-        <small>
-          (<a href="{% url 'blog:edit_post' post.id %}">Edit</a>)
-          (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
-        </small>
-      {% endif %}
-      <br/><br/>
-    </li>
-    {% endfor %}
+      {% for post in latest_post_list %}
+        <li class="mb-5">
+            <h5>
+              <a href="{% url 'blog:detail' post.id %}"><strong>{{ post.title }}</strong></a>
+            </h5>
+            <p>{{ post.text|slice:"200"|safe }}...</p>
+            <p>Posted on the: {{ post.pub_date }}</p>
+            <p>Last modified on: {{ post.last_edited }}</p>
+            <p>
+              {% if user.is_authenticated and user.is_superuser %}
+              <small>
+                (<a href="{% url 'blog:edit_post' post.id %}">Edit</a>) (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
+              </small>
+              {% endif %}
+            </p>
+        </li>
+      {% endfor %}
   </ul>
   {% endif %}
 </main>
