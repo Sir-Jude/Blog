@@ -23,13 +23,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-)o%_m4(260o4x6bkd3*sms5&&*n^q#nvl*07u%=go)(hl^y8=_"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+IS_PRODUCTION = os.getenv('DJANGO_PRODUCTION', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+if IS_PRODUCTION:
+    DEBUG = False
+    ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']
+    
+    # Security settings for production
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+else:
+    DEBUG = True
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 TESTING = "test" in sys.argv
 
@@ -90,12 +101,12 @@ WSGI_APPLICATION = "app.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "app",
-        "USER": "postgres",
+        "ENGINE": os.getenv("DB_ENGINE"),
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
         "PASSWORD": os.getenv("DB_PASSWORD"),
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),
     }
 }
 
