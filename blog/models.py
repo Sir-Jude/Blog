@@ -36,6 +36,7 @@ class Post(models.Model):
     last_edited = models.DateTimeField(
         null=True, blank=True
     )  # Only set when actually edited
+    likes = models.ManyToManyField(User, related_name="blog_posts")
 
     @admin.display(
         boolean=True,
@@ -68,6 +69,9 @@ class Post(models.Model):
             kwargs["update_fields"] = update_fields
 
         super().save(*args, **kwargs)
+    
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.title

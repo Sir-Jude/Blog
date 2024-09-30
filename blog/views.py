@@ -1,6 +1,7 @@
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
@@ -58,6 +59,11 @@ class DetailView(generic.DetailView):
         Excludes any posts that aren't published yet.
         """
         return Post.objects.filter(pub_date__lte=timezone.now())
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_likes'] = self.object.total_likes()  # Get total likes for the current post
+        return context
 
 
 class NewPostView(generic.CreateView):
@@ -124,6 +130,18 @@ class DeletePostView(generic.DeleteView):
     
     def form_valid(self, form):
         return super().form_valid(form)
+
+
+def LikeView(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    liked = False
+    if post.likes.filter(pk=request.user.pk).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+    return HttpResponseRedirect(reverse('blog:detail', args=[str(pk)]))
     
 
 class CommentView(generic.DetailView):

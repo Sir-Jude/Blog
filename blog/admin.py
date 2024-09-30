@@ -10,7 +10,7 @@ class CommentInLine(admin.TabularInline):
 
 class PostAdmin(admin.ModelAdmin):
     fieldsets = [
-        ("Post", {"fields": ["title", "text"]}),
+        ("Post", {"fields": ["title", "text", "likes"]}),
         ("Categorization", {"fields": ["category"]}),
         (
             "Date information",

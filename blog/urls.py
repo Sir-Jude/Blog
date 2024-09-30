@@ -12,4 +12,5 @@ urlpatterns = [
     path("<int:pk>/comment/", views.DetailView.as_view(), name="comment"),
     path("category/<str:cats>/", views.CategoryView, name="category"),
     path("category-list/", views.CategoryListView, name="category-list"),
+    path("<int:pk>/like", views.LikeView, name="like_post"),
 ]
