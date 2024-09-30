@@ -18,6 +18,6 @@
     </form>
   </div>
 {% else %}
-You are not allowed here.
+  {% include "blog/errors/403_admin.html" %}
 {% endif %}
 {% endblock content %}
