@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+{% block title %}
+  Add a new comment...
+{% endblock title %}
+{% block content %}
+{% if user.is_authenticated %}
+  <div class="form-group">
+    <form method="POST">
+      {% csrf_token %}
+      <fieldset>
+        <legend><h2>Add a new comment...</h2></legend>
+        <p>
+          {{ form.as_p }}
+        </p>
+      </fieldset>
+      <button type="submit" class="btn btn-success">Comment</button>
+      <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+{% else %}
+You are not allowed here.
+{% endif %}
+{% endblock content %}

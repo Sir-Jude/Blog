@@ -5,8 +5,8 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
-from .forms import PostForm, EditPostForm
-from .models import Post, Category
+from .forms import PostForm, EditPostForm, CommentForm
+from .models import Post, Category, Comment
 
 # Create your views here.
 
@@ -144,12 +144,37 @@ def LikeView(request, pk):
     return HttpResponseRedirect(reverse('blog:detail', args=[str(pk)]))
     
 
-class CommentView(generic.DetailView):
-    model = Post
+class CommentView(generic.CreateView):
+    model = Comment
     template_name = "blog/post.html"
+    fields = "__all__"
 
-    def write(request, post_id):
-        post = get_object_or_404(Post, pk=post_id)
+    def form_valid(self, form):
+        post = get_object_or_404(Post, pk=self.kwargs['post_id'])  # Get the post by its ID
+        form.instance.user = self.request.user  # Set the current user as the commenter
+        form.instance.post = post  # Associate the comment with the post
+        return super().form_valid(form)
 
-    def edit(request, post_id):
-        post = get_object_or_404(Post, pk=post_id)
+    def get_success_url(self):
+        return reverse('blog:detail', args=[self.kwargs['post_id']])
+    
+class NewCommentView(generic.CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = "blog/new_comment.html"
+
+    def form_valid(self, form):
+        # Get the post using the pk from URL parameters
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        
+        # Set the current logged-in user to the comment
+        form.instance.user = self.request.user
+        
+        # Associate the comment with the post
+        form.instance.post = post
+
+        # Proceed with the usual form saving process
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy("blog:detail", args=[self.kwargs['pk']])

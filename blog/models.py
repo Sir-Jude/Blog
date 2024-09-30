@@ -36,7 +36,7 @@ class Post(models.Model):
     last_edited = models.DateTimeField(
         null=True, blank=True
     )  # Only set when actually edited
-    likes = models.ManyToManyField(User, related_name="blog_posts")
+    likes = models.ManyToManyField(User, blank= True, related_name="%(app_label)s_%(class)s_related",)
 
     @admin.display(
         boolean=True,
@@ -98,6 +98,25 @@ class Comment(models.Model):
     last_edited = models.DateTimeField(
         null=True, blank=True
     )  # Only set when actually edited
+    
+    def save(self, *args, **kwargs):
+        # Check if the object exists (not a new comment)
+        if self.pk is not None:
+            original_comment = Comment.objects.get(pk=self.pk)
+            # Update last_edited only if the text has changed
+            if original_comment.text != self.text:
+                self.last_edited = timezone.now()
+        else:
+            self.last_edited = None  # For new comments, last_edited should be None
+
+        # Ensure that last_edited is included in update_fields if it has changed,
+        #   otherwise it will not be updated in the DB.
+        update_fields = kwargs.get("update_fields")
+        if update_fields is not None and "last_edited" not in update_fields:
+            update_fields = {"last_edited"}.union(update_fields)
+            kwargs["update_fields"] = update_fields
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return textwrap.shorten(self.text, width=20, placeholder="...")

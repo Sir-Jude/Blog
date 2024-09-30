@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Category
+from .models import Post, Category, Comment
 
 choices = Category.objects.all().values_list('name', 'name')
 
@@ -54,3 +54,21 @@ class EditPostForm(forms.ModelForm):
 
         if commit:
             post.save()
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ("text",)
+
+        widgets = {
+            "text": forms.Textarea(attrs={"class": "form-control"}),
+        }
+
+    def save(self, commit=True):
+        # Save post instance first
+        comment = super().save(commit=False)
+
+        if commit:
+            comment.save()
+
+        return comment
