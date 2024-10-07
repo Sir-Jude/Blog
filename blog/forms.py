@@ -1,13 +1,6 @@
 from django import forms
 from .models import Post, Category, Comment
 
-choices = Category.objects.all().values_list('name', 'name')
-
-choice_list = []
-
-for cat in choices:
-    choice_list.append(cat)
-
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -16,7 +9,7 @@ class PostForm(forms.ModelForm):
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "text": forms.Textarea(attrs={"class": "form-control"}),
-            "category": forms.Select(choices=choice_list, attrs={"class": "form-control"}),
+            "category": forms.Select(attrs={"class": "form-control"}),
         }
 
     def clean_category(self):

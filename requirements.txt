@@ -1,8 +1,9 @@
 asgiref==3.8.1
 black==24.8.0
 click==8.1.7
-Django==5.1.1
+Django==5.0.9
 django-debug-toolbar==4.4.6
+django-extensions==3.2.3
 mypy-extensions==1.0.0
 packaging==24.1
 pathspec==0.12.1

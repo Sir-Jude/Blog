@@ -29,12 +29,12 @@ IS_PRODUCTION = os.getenv('DJANGO_PRODUCTION', 'False') == 'True'
 
 if IS_PRODUCTION:
     DEBUG = False
-    ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']
+    ALLOWED_HOSTS = ['sirjude.pythonanywhere.com']
     
-    # Security settings for production
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
+    # # Security settings for production
+    # SECURE_HSTS_SECONDS = 31536000  # 1 year
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    # SECURE_HSTS_PRELOAD = True
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "blog",
     "registration",
+    "django_extensions"
 ]
 
 # Add debug toolbar only when not running tests
