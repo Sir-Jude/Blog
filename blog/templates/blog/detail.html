@@ -33,48 +33,55 @@
           </small>
         {% endif %}
       </p>
-      <p>
-        <form action="{% url 'blog:like_post' post.id %}" method="POST">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-primary btn-sm"
-            style="border: none; background: none; cursor: pointer; font-size: 1.5 em;">
-            👍
-          </button>{{ total_likes }}
-        </form>
-      </p>
+      <form action="{% url 'blog:like_post' post.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-sm"
+          style="border: none; background: none; cursor: pointer; font-size: 1.5 em;">
+          👍
+        </button>{{ total_likes }}
+      </form>
     {% else %}
-      <small>(Login to like/comment)</small>
+      👍 {{ total_likes }}
+      <p>
+        <small>(Login to like/comment)</small>
+      </p>
     {% endif %}
   </p>
   <hr style="border: 1px solid #ccc;">
   <p>
     <h5>Comments</h5>
     {% if not post.blog_comment_related.all %}
-      <h6>There are not comment yet: be the first to say something!</h6>
-      <a href="{% url 'blog:new_comment' post.id %}">Add a comment</a>
+      {% if user.is_authenticated %}
+        <h6>There are not comment yet: be the first to say something!</h6>
+        <a href="{% url 'blog:new_comment' post.id %}">Add a comment</a>
+      {% else %}
+        <h6>Login to leave a comment below this post.</h6>
+      {% endif %}
     {% else %}
-      <div>
-        <p><a href="{% url 'blog:new_comment' post.id %}">Add a comment</a></p>
-        {% for comment in post.blog_comment_related.all %}
-          <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-            <!-- Author -->
-            <strong>{{ comment.user|title }}</strong>
-            <!-- Comment text (in a box) -->
-            <p>
-              <div style="border: 1px solid #eee; background-color: #f9f9f9; padding: 10px; margin-top: 5px;">
-                {{ comment.text }}
-              </div>
-            </p>
-            <!-- Publication date -->
-            <small>Published: {{ comment.pub_date|date:"M d, Y H:i" }}</small>
-            <!-- Last edited date (only show if not null) -->
-            {% if comment.last_edited %}
-              <small>Last edited: {{ comment.last_edited|date:"M d, Y H:i" }}</small>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
+      {% if user.is_authenticated %}
+        <div>
+          <p><a href="{% url 'blog:new_comment' post.id %}">Add a comment</a></p>
+        </div>
+      {% endif %}
     {% endif %}
+    {% for comment in post.blog_comment_related.all %}
+      <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+        <!-- Author -->
+        <strong>{{ comment.user|title }}</strong>
+        <!-- Comment text (in a box) -->
+        <p>
+          <div style="border: 1px solid #eee; background-color: #f9f9f9; padding: 10px; margin-top: 5px;">
+            {{ comment.text }}
+          </div>
+        </p>
+        <!-- Publication date -->
+        <small>Published: {{ comment.pub_date|date:"M d, Y H:i" }}</small>
+        <!-- Last edited date (only show if not null) -->
+        {% if comment.last_edited %}
+          <small>Last edited: {{ comment.last_edited|date:"M d, Y H:i" }}</small>
+        {% endif %}
+      </div>
+    {% endfor %}
   </p>
   <a href="{% url 'blog:home' %}" class="btn btn-primary">Back</a>
 {% endblock content %}
