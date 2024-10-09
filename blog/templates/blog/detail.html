@@ -17,12 +17,15 @@
   <p>
     <h6>{{ post.text|safe }}</h6>
   </p>
+  <hr style="border: 1px solid #ccc;">
   <p>
     Posted on the: {{ post.pub_date }}
   </p>
-  <p>
-    Last modified on: {{ post.last_edited }}
-  </p>
+  {% if post.last_edited != None %}
+    <p>
+      Last modified on: {{ post.last_edited }}
+    </p>
+  {% endif %}
   <p>
     {% if user.is_authenticated %}
       <p>

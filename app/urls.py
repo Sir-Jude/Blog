@@ -17,15 +17,19 @@ Including another URLconf
 
 from django.conf import settings
 from django.contrib import admin
-from debug_toolbar.toolbar import debug_toolbar_urls
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
+from blog.views import HomeView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", HomeView.as_view(), name="home"),
     path("blog/", include("blog.urls")),
     path("registration/", include("django.contrib.auth.urls")),
     path("registration/", include("registration.urls")),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
 
 if not settings.TESTING:
     import debug_toolbar
