@@ -1,0 +1,98 @@
+/* Custom styles for the navbar */
+.custom-navbar {
+    background-color: transparent; /* Set navbar background to transparent */
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .nav-link,
+.custom-navbar .dropdown-item,
+.custom-navbar .btn {
+    color: white !important; /* Set all text to white */
+}
+
+.custom-navbar .btn-outline-light {
+    border-color: white; /* Keep the border color white for outline buttons */
+}
+
+.custom-navbar .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Add a hover effect */
+}
+
+/* Ensure dropdown toggle button text remains white */
+.custom-navbar .btn-outline-light.active,
+.custom-navbar .btn-outline-light:active,
+.custom-navbar .btn-outline-light.dropdown-toggle.show {
+    color: white; /* Set text color to white */
+    background-color: transparent; /* Set background to transparent */
+    border-color: white; /* Set border color to white */
+}
+
+/* Custom styles for dropdown items */
+.custom-navbar .dropdown-item {
+    color: white !important; /* Override default Bootstrap color */
+}
+
+.custom-navbar .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Add a hover effect for better visibility */
+    color: white; /* Keep text color white on hover */
+}
+
+/* Dropdown menu styles */
+.custom-navbar .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.9); /* Set background color to a semi-transparent dark color */
+}
+
+body {
+    background-image: url('/static/blog/images/background.jpg');
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Keep the background fixed while scrolling */
+    color: white; /* Set text color to white */
+}
+
+.text-container {
+    color: white; /* Make sure text within this container is white */
+}
+
+.comment {
+    margin-bottom: 10px;
+    color: white; /* Ensure text is white */
+}
+
+/* Set the color of links to white */
+a {
+    color: white; /* Set link color to white */
+}
+
+/* Change color on hover */
+a:hover {
+    color: lightgray; /* Optional: Change color on hover for better UX */
+}
+
+/* Target dropdown items only on the categories page */
+.categories-page .dropdown-item {
+    display: inline-block; /* Change to inline-block to fit content width */
+    width: auto; /* Remove the width: 100%; to fit the text */
+    padding: .25rem 1rem;
+    clear: both;
+    font-weight: 400;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    color: white; /* Ensure text is white by default */
+}
+
+/* Apply hover effect for better visibility */
+.categories-page .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Highlight background */
+    color: white; /* Keep text color white on hover */
+}
+
+/* Override link styles specifically for the categories page */
+.categories-page a {
+    color: white; /* Keep link color white */
+    text-decoration: underline; /* Maintain underline */
+}

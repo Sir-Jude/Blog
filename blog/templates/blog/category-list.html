@@ -5,16 +5,18 @@
 {% endblock title %}
 
 {% block content %}
-  <h2>Blog Categories</h2>
-  <ul>
-    {% for item in category_menu_list %}
-      <li>
-        <h6>
-          <a class="dropdown-item" href="{% url 'blog:category' item.name %}">{{ item.name }}</a>
-        </h6>
-      </li>
-    {% empty %}
-      <li>No categories available.</li>
-    {% endfor %}
-  </ul>
+  <div class="categories-page">
+    <h2>Blog Categories</h2>
+    <ul>
+      {% for item in category_menu_list %}
+        <li>
+          <h6>
+            <a class="dropdown-item" href="{% url 'blog:category' item.name %}">{{ item.name }}</a>
+          </h6>
+        </li>
+      {% empty %}
+        <li>No categories available.</li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock content %}

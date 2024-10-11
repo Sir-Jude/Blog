@@ -4,6 +4,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
 
     <!-- Bootstrap CSS -->
     <link
@@ -13,7 +15,7 @@
       crossorigin="anonymous"
     />
     {% load static %}
-    <link rel="stylesheet" href="{% static 'blog/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
     <title>{% block title %} {% endblock title %}</title>
   </head>
   <body>
@@ -36,7 +38,7 @@
             <li class="nav-item me-2">
               {% if category_menu %}
                 <div class="nav-item dropdown me-2">
-                  <a class="btn btn-outline-dark dropdown-toggle me-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a class="btn btn-outline-light dropdown-toggle me-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Categories
                   </a>
                   <ul class="dropdown-menu">
@@ -49,7 +51,7 @@
               <li class="nav-item me-2">
                 <a
                   href="{% url 'blog:category-list' %}"
-                  class="btn btn-outline-dark me-2"
+                  class="btn btn-outline-light me-2"
                   style="padding: 0; margin: 0; border: none"
                 >Category list</a>
               </li>
@@ -61,14 +63,14 @@
                   <li class="nav-item me-2">
                     <a
                       href="{% url 'blog:new_post' %}"
-                      class="btn btn-outline-dark me-2"
+                      class="btn btn-outline-light me-2"
                       style="padding: 0; margin: 0; border: none"
                     >New post</a>
                   </li>
                   <li class="nav-item me-2">
                     <a
                       href="{% url 'blog:add_category' %}"
-                      class="btn btn-outline-dark me-2"
+                      class="btn btn-outline-light me-2"
                       style="padding: 0; margin: 0; border: none"
                     >Add category</a>
                   </li>
@@ -78,7 +80,7 @@
                     {% csrf_token %}
                     <button
                       type="submit"
-                      class="btn btn-outline-dark me-2"
+                      class="btn btn-outline-light me-2"
                       style="padding: 0; margin: 0; border: none"
                     >
                       Logout
@@ -89,14 +91,14 @@
                 <li class="nav-item me-2">
                   <a
                     href="{% url 'registration:register' %}"
-                    class="btn btn-outline-dark me-2"
+                    class="btn btn-outline-light me-2"
                     style="padding: 0; margin: 0; border: none"
                   >Register</a>
                 </li>
                 <li class="nav-item me-2">
                   <a
                     href="{% url 'login' %}"
-                    class="btn btn-outline-dark me-2"
+                    class="btn btn-outline-light me-2"
                     style="padding: 0; margin: 0; border: none"
                   >Login</a>
                 </li>
@@ -105,11 +107,13 @@
           </ul>
         </div>
       </div>
-    </nav>
-    <br />
-    <div class="container">
-      {% block content %}
-      {% endblock content %}
+    </nav>        
+    <br>
+    <div class="text-container">
+      <div class="container">
+        {% block content %}
+        {% endblock content %}
+      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
