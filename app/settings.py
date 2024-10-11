@@ -10,11 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import logging
 from dotenv import load_dotenv
 from pathlib import Path
 import os
 import sys
 import dj_database_url
+
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +33,7 @@ IS_PRODUCTION = os.getenv('DJANGO_PRODUCTION', 'False') == 'True'
 
 if IS_PRODUCTION == True:
     DEBUG = False
-    ALLOWED_HOSTS = ['blog-qr1m.onrender.com']
+    ALLOWED_HOSTS = ['blog-qr1m.onrender.com', 'just-a-bit.com', 'www.just-a-bit.com']
     
     # # Security settings for production
     # SECURE_HSTS_SECONDS = 31536000  # 1 year
@@ -42,6 +45,38 @@ if IS_PRODUCTION == True:
     
     DATABASES = {
     "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
+    
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': '{levelname} {asctime} {module} {message}',
+                'style': '{',
+            },
+            'simple': {
+                'format': '{levelname} {message}',
+                'style': '{',
+            },
+        },
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'verbose',
+                'level': 'DEBUG',
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+        },
     }
     
 else:
@@ -82,6 +117,7 @@ if not TESTING:
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -154,8 +190,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
-MEDIA_URL = "media/"
+STATIC_URL = "/static/"
+MEDIA_URL = "/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
