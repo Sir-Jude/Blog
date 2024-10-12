@@ -1,6 +1,7 @@
 from django import forms
 from .models import Post, Category, Comment
 
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -31,6 +32,7 @@ class PostForm(forms.ModelForm):
 
         return post
 
+
 class EditPostForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -40,13 +42,14 @@ class EditPostForm(forms.ModelForm):
             "title": forms.TextInput(attrs={"class": "form-control"}),
             "text": forms.Textarea(attrs={"class": "form-control"}),
         }
-        
+
     def save(self, commit=True):
         # Save post instance first
         post = super().save(commit=False)
 
         if commit:
             post.save()
+
 
 class CommentForm(forms.ModelForm):
     class Meta:

@@ -17,7 +17,7 @@ class PostAdmin(admin.ModelAdmin):
         (
             "Date information",
             {"fields": ["pub_date", "last_edited"], "classes": ["collapse"]},
-        ),        
+        ),
     ]
     list_display = ["title", "pub_date", "last_edited"]
     list_filter = ["pub_date", "last_edited"]

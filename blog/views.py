@@ -14,7 +14,7 @@ from .models import Post, Category, Comment
 class HomeView(generic.ListView):
     template_name = "blog/home.html"
     context_object_name = "latest_post_list"
-    ordering = ['-pub_date']
+    ordering = ["-pub_date"]
 
     def get_queryset(self):
         """
@@ -26,7 +26,7 @@ class HomeView(generic.ListView):
         return Post.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[
             :5
         ]
-    
+
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
         context = super(HomeView, self).get_context_data(*args, **kwargs)
@@ -35,19 +35,21 @@ class HomeView(generic.ListView):
 
 
 def CategoryListView(request):
-    category_menu_list = Category.objects.all().order_by('name')
-    return render(request, 'blog/category-list.html', {'category_menu_list': category_menu_list})
+    category_menu_list = Category.objects.all().order_by("name")
+    return render(
+        request, "blog/category-list.html", {"category_menu_list": category_menu_list}
+    )
 
 
 def CategoryView(request, cats):
     # Adjust this line to filter correctly by category name
-    category_posts = Post.objects.filter(category__name=cats.replace('-', ' '))
-    
-    return render(request, 'blog/categories.html', {
-        'cats': cats.title().replace('-', ' '), 
-        'category_posts': category_posts
-    })
+    category_posts = Post.objects.filter(category__name=cats.replace("-", " "))
 
+    return render(
+        request,
+        "blog/categories.html",
+        {"cats": cats.title().replace("-", " "), "category_posts": category_posts},
+    )
 
 
 class DetailView(generic.DetailView):
@@ -59,10 +61,12 @@ class DetailView(generic.DetailView):
         Excludes any posts that aren't published yet.
         """
         return Post.objects.filter(pub_date__lte=timezone.now())
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_likes'] = self.object.total_likes()  # Get total likes for the current post
+        context["total_likes"] = (
+            self.object.total_likes()
+        )  # Get total likes for the current post
         return context
 
 
@@ -87,19 +91,19 @@ class NewPostView(generic.CreateView):
     def form_valid(self, form):
         # You can add any extra logic here before the form is saved if needed
         return super().form_valid(form)
-    
+
 
 class NewCategoryView(generic.CreateView):
     model = Category
     template_name = "blog/new_category.html"
-    fields = '__all__'
+    fields = "__all__"
 
     def get_success_url(self):
         return reverse_lazy("blog:category-list")
 
     def form_valid(self, form):
         # Get the category name
-        category_name = form.cleaned_data.get('name').strip()
+        category_name = form.cleaned_data.get("name").strip()
 
         # Check if the category already exists (case insensitive)
         if Category.objects.filter(name__iexact=category_name).exists():
@@ -107,27 +111,28 @@ class NewCategoryView(generic.CreateView):
             return self.form_invalid(form)  # Return invalid form to show the error
 
         return super().form_valid(form)
-    
+
+
 class EditPostView(generic.UpdateView):
     model = Post
     template_name = "blog/edit_post.html"
     form_class = EditPostForm
 
     def get_success_url(self):
-        return reverse_lazy('blog:home')
+        return reverse_lazy("blog:home")
 
     def form_valid(self, form):
         # You can perform additional actions here if needed
         return super().form_valid(form)
-    
+
 
 class DeletePostView(generic.DeleteView):
     model = Post
     template_name = "blog/delete_post.html"
-    
+
     def get_success_url(self):
         return reverse_lazy("blog:home")
-    
+
     def form_valid(self, form):
         return super().form_valid(form)
 
@@ -141,8 +146,8 @@ def LikeView(request, pk):
     else:
         post.likes.add(request.user)
         liked = True
-    return HttpResponseRedirect(reverse('blog:detail', args=[str(pk)]))
-    
+    return HttpResponseRedirect(reverse("blog:detail", args=[str(pk)]))
+
 
 class CommentView(generic.CreateView):
     model = Comment
@@ -150,14 +155,17 @@ class CommentView(generic.CreateView):
     fields = "__all__"
 
     def form_valid(self, form):
-        post = get_object_or_404(Post, pk=self.kwargs['post_id'])  # Get the post by its ID
+        post = get_object_or_404(
+            Post, pk=self.kwargs["post_id"]
+        )  # Get the post by its ID
         form.instance.user = self.request.user  # Set the current user as the commenter
         form.instance.post = post  # Associate the comment with the post
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('blog:detail', args=[self.kwargs['post_id']])
-    
+        return reverse("blog:detail", args=[self.kwargs["post_id"]])
+
+
 class NewCommentView(generic.CreateView):
     model = Comment
     form_class = CommentForm
@@ -165,16 +173,16 @@ class NewCommentView(generic.CreateView):
 
     def form_valid(self, form):
         # Get the post using the pk from URL parameters
-        post = get_object_or_404(Post, pk=self.kwargs['pk'])
-        
+        post = get_object_or_404(Post, pk=self.kwargs["pk"])
+
         # Set the current logged-in user to the comment
         form.instance.user = self.request.user
-        
+
         # Associate the comment with the post
         form.instance.post = post
 
         # Proceed with the usual form saving process
         return super().form_valid(form)
-    
+
     def get_success_url(self):
-        return reverse_lazy("blog:detail", args=[self.kwargs['pk']])
+        return reverse_lazy("blog:detail", args=[self.kwargs["pk"]])

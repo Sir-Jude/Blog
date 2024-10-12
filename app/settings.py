@@ -27,14 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-IS_PRODUCTION = os.getenv('DJANGO_PRODUCTION', 'False') == 'True'
+IS_PRODUCTION = os.getenv("DJANGO_PRODUCTION", "False") == "True"
 
 if IS_PRODUCTION == True:
     DEBUG = False
-    ALLOWED_HOSTS = ['blog-qr1m.onrender.com', 'just-a-bit.com', 'www.just-a-bit.com']
-    
+    ALLOWED_HOSTS = ["blog-qr1m.onrender.com", "just-a-bit.com", "www.just-a-bit.com"]
+
     # # Security settings for production
     # SECURE_HSTS_SECONDS = 31536000  # 1 year
     # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -42,47 +42,45 @@ if IS_PRODUCTION == True:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    
-    DATABASES = {
-    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
-    }
-    
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    
+
+    DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
+
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
     LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'verbose': {
-                'format': '{levelname} {asctime} {module} {message}',
-                'style': '{',
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "verbose": {
+                "format": "{levelname} {asctime} {module} {message}",
+                "style": "{",
             },
-            'simple': {
-                'format': '{levelname} {message}',
-                'style': '{',
-            },
-        },
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
-                'formatter': 'verbose',
-                'level': 'DEBUG',
+            "simple": {
+                "format": "{levelname} {message}",
+                "style": "{",
             },
         },
-        'loggers': {
-            'django': {
-                'handlers': ['console'],
-                'level': 'DEBUG',
-                'propagate': True,
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "verbose",
+                "level": "DEBUG",
+            },
+        },
+        "loggers": {
+            "django": {
+                "handlers": ["console"],
+                "level": "DEBUG",
+                "propagate": True,
             },
         },
     }
-    
+
 else:
     DEBUG = True
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-    
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
     DATABASES = {
         "default": {
             "ENGINE": os.getenv("DB_ENGINE"),
@@ -93,8 +91,7 @@ else:
             "PORT": os.getenv("DB_PORT"),
         }
     }
-    
-    
+
 
 TESTING = "test" in sys.argv
 
@@ -108,7 +105,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "blog",
     "registration",
-    "django_extensions"
+    "django_extensions",
 ]
 
 # Add debug toolbar only when not running tests
@@ -117,7 +114,7 @@ if not TESTING:
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -202,5 +199,5 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-LOGIN_REDIRECT_URL = 'blog:home'
-LOGOUT_REDIRECT_URL = 'blog:home'
+LOGIN_REDIRECT_URL = "blog:home"
+LOGOUT_REDIRECT_URL = "blog:home"
