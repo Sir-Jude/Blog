@@ -29,7 +29,13 @@ Homepage
       </div>
       <p>{{ post.text|slice:"200"|safe }}...</p>
       <p>Posted on the: {{ post.pub_date }}</p>
-      <p>Last modified on: {{ post.last_edited }}</p>
+      <p>
+        {% if post.last_edited != None %}
+          <p>
+            Last modified on: {{ post.last_edited }}
+          </p>
+        {% endif %}
+      </p>
       <p>
         {% if user.is_authenticated and user.is_superuser %}
         <small>
