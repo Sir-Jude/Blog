@@ -10,9 +10,9 @@
     <ul>
       {% for item in category_menu_list %}
         <li>
-          <h6>
-            <a class="dropdown-item" href="{% url 'blog:category' item.name %}">{{ item.name }}</a>
-          </h6>
+          <h4>
+            <a class="category-link" href="{% url 'blog:category' item.name %}">{{ item.name }}</a>
+          </h4>
         </li>
       {% empty %}
         <li>No categories available.</li>

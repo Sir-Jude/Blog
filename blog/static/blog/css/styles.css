@@ -3,45 +3,7 @@
     background-color: transparent; /* Set navbar background to transparent */
 }
 
-.custom-navbar .navbar-brand,
-.custom-navbar .nav-link,
-.custom-navbar .dropdown-item,
-.custom-navbar .btn {
-    color: white !important; /* Set all text to white */
-}
-
-.custom-navbar .btn-outline-light {
-    border-color: white; /* Keep the border color white for outline buttons */
-}
-
-.custom-navbar .btn-outline-light:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Add a hover effect */
-}
-
-/* Ensure dropdown toggle button text remains white */
-.custom-navbar .btn-outline-light.active,
-.custom-navbar .btn-outline-light:active,
-.custom-navbar .btn-outline-light.dropdown-toggle.show {
-    color: white; /* Set text color to white */
-    background-color: transparent; /* Set background to transparent */
-    border-color: white; /* Set border color to white */
-}
-
-/* Custom styles for dropdown items */
-.custom-navbar .dropdown-item {
-    color: white !important; /* Override default Bootstrap color */
-}
-
-.custom-navbar .dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Add a hover effect for better visibility */
-    color: white; /* Keep text color white on hover */
-}
-
-/* Dropdown menu styles */
-.custom-navbar .dropdown-menu {
-    background-color: rgba(0, 0, 0, 0.9); /* Set background color to a semi-transparent dark color */
-}
-
+/* Body styles */
 body {
     background-image: 
         radial-gradient(circle at left, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 35%),
@@ -55,8 +17,49 @@ body {
     color: white; /* Set text color to white */
 }
 
-.text-container {
-    color: white; /* Make sure text within this container is white */
+.category-link {
+    font-size: 0.8em; /* Smaller font size */
+    color: #0d6efd; /* Adjust the color as needed */
+}
+
+/* Justification styles */
+.content {
+    max-width: 700px; /* Set a maximum width for the text area */
+    margin: 20px auto; /* Center the content */
+    text-align: justify; /* Justify the text */
+    hyphens: auto; /* Enable hyphenation for better text flow */
+}
+
+.content p {
+    text-align: justify; /* Justify the text for paragraphs */
+    text-align-last: left; /* Align the last line of a paragraph to the left */
+    margin-bottom: 1em; /* Add space between paragraphs */
+}
+
+.post-content {
+    max-width: 800px; /* Set a maximum width for the content */
+    margin: 0 auto; /* Center the content */
+    text-align: justify; /* Justify the text within the post content */
+}
+
+.post-content p {
+    text-align: justify; /* Justify the text for paragraphs */
+    text-align-last: left; /* Align the last line of a paragraph to the left */
+    margin-bottom: 1em; /* Add space between paragraphs */
+}
+
+/* Comment styles */
+.comment-box {
+    border: 1px solid #ccc; /* Border around the entire comment */
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-text {
+    border: 1px solid #666; /* Border around the comment text */
+    padding: 10px;
+    background-color: transparent; /* Transparent background */
+    color: white; /* White text to match the rest of the page */
 }
 
 .comment {
@@ -97,6 +100,6 @@ a:hover {
 
 /* Override link styles specifically for the categories page */
 .categories-page a {
-    color: white; /* Keep link color white */
-    text-decoration: underline; /* Maintain underline */
+    color: #0d6efd; /* Link color on categories page */
+    text-decoration: none; /* Maintain underline */
 }

@@ -14,8 +14,6 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
     <title>{% block title %} {% endblock title %}</title>
   </head>
   <body>
@@ -110,7 +108,7 @@
     </nav>        
     <br>
     <div class="text-container">
-      <div class="container">
+      <div class="container" style="max-width: 800px; margin: 0 auto; color: white;">
         {% block content %}
         {% endblock content %}
       </div>
