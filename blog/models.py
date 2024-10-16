@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django_ckeditor_5.fields import CKEditor5Field
 
 import textwrap
 
@@ -22,7 +23,8 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
-    text = models.TextField()
+    # text = models.TextField()
+    text=CKEditor5Field('Text', config_name='extends', default='', blank=True, null=True)
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,

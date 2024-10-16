@@ -1,5 +1,7 @@
 from django import forms
 from .models import Post, Category, Comment
+from django_ckeditor_5.widgets import CKEditor5Widget
+
 
 
 class PostForm(forms.ModelForm):
@@ -9,7 +11,7 @@ class PostForm(forms.ModelForm):
 
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
-            "text": forms.Textarea(attrs={"class": "form-control"}),
+            "text": CKEditor5Widget(attrs={"class": "django_ckeditor_5"}),
             "category": forms.Select(attrs={"class": "form-control"}),
         }
 

@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.core.files.storage import default_storage
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
@@ -92,6 +93,17 @@ class NewPostView(generic.CreateView):
         # You can add any extra logic here before the form is saved if needed
         return super().form_valid(form)
 
+def custom_upload_function(request):
+    if request.method == "POST" and request.FILES.get("upload"):
+        uploaded_file = request.FILES["upload"]
+        file_name = default_storage.save(uploaded_file.name, uploaded_file)
+
+        # Generate a URL to the uploaded file
+        file_url = default_storage.url(file_name)
+
+        # Return a JSON response with the uploaded file URL
+        return JsonResponse({"url": file_url})
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 class NewCategoryView(generic.CreateView):
     model = Category

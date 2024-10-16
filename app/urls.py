@@ -18,8 +18,9 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
 from django.urls import include, path
-from blog.views import HomeView
+from blog.views import HomeView, custom_upload_function
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,9 +28,13 @@ urlpatterns = [
     path("blog/", include("blog.urls")),
     path("registration/", include("django.contrib.auth.urls")),
     path("registration/", include("registration.urls")),
+    path("upload/", custom_upload_function, name="custom_upload_file"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
+
+# Serve media files during development
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if not settings.TESTING:
     import debug_toolbar
