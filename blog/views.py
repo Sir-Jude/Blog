@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 from django.core.files.storage import default_storage
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -93,16 +94,25 @@ class NewPostView(generic.CreateView):
         # You can add any extra logic here before the form is saved if needed
         return super().form_valid(form)
 
+# Check if the user has admin privileges
+def is_admin(user):
+    return user.is_authenticated and user.is_superuser
+
+@user_passes_test(is_admin)
 def custom_upload_function(request):
     if request.method == "POST" and request.FILES.get("upload"):
         uploaded_file = request.FILES["upload"]
+        
+        if not uploaded_file.name.endswith(('.png', '.jpg', '.jpeg', '.gif')):
+            return JsonResponse({"error": "Invalid file type"}, status=400)
+        
+        # Generate a name for the uploaded file
         file_name = default_storage.save(uploaded_file.name, uploaded_file)
-
         # Generate a URL to the uploaded file
         file_url = default_storage.url(file_name)
-
         # Return a JSON response with the uploaded file URL
         return JsonResponse({"url": file_url})
+    
     return JsonResponse({"error": "Invalid request"}, status=400)
 
 class NewCategoryView(generic.CreateView):
