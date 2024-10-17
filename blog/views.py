@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.files.storage import default_storage
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -72,7 +73,7 @@ class DetailView(generic.DetailView):
         return context
 
 
-class NewPostView(generic.CreateView):
+class NewPostView(UserPassesTestMixin, generic.CreateView):
     model = Post
     form_class = PostForm
     template_name = "blog/new_post.html"
@@ -93,6 +94,9 @@ class NewPostView(generic.CreateView):
     def form_valid(self, form):
         # You can add any extra logic here before the form is saved if needed
         return super().form_valid(form)
+    
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_superuser
 
 # Check if the user has admin privileges
 def is_admin(user):
@@ -115,7 +119,7 @@ def custom_upload_function(request):
     
     return JsonResponse({"error": "Invalid request"}, status=400)
 
-class NewCategoryView(generic.CreateView):
+class NewCategoryView(UserPassesTestMixin, generic.CreateView):
     model = Category
     template_name = "blog/new_category.html"
     fields = "__all__"
@@ -134,8 +138,11 @@ class NewCategoryView(generic.CreateView):
 
         return super().form_valid(form)
 
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_superuser
 
-class EditPostView(generic.UpdateView):
+
+class EditPostView(UserPassesTestMixin, generic.UpdateView):
     model = Post
     template_name = "blog/edit_post.html"
     form_class = EditPostForm
@@ -147,8 +154,11 @@ class EditPostView(generic.UpdateView):
         # You can perform additional actions here if needed
         return super().form_valid(form)
 
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_superuser
 
-class DeletePostView(generic.DeleteView):
+
+class DeletePostView(UserPassesTestMixin, generic.DeleteView):
     model = Post
     template_name = "blog/delete_post.html"
 
@@ -157,6 +167,9 @@ class DeletePostView(generic.DeleteView):
 
     def form_valid(self, form):
         return super().form_valid(form)
+    
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_superuser
 
 
 def LikeView(request, pk):
@@ -171,7 +184,7 @@ def LikeView(request, pk):
     return HttpResponseRedirect(reverse("blog:detail", args=[str(pk)]))
 
 
-class CommentView(generic.CreateView):
+class CommentView(UserPassesTestMixin,generic.CreateView):
     model = Comment
     template_name = "blog/post.html"
     fields = "__all__"
@@ -186,9 +199,12 @@ class CommentView(generic.CreateView):
 
     def get_success_url(self):
         return reverse("blog:detail", args=[self.kwargs["post_id"]])
+    
+    def test_func(self):
+        return self.request.user.is_authenticated
 
 
-class NewCommentView(generic.CreateView):
+class NewCommentView(UserPassesTestMixin, generic.CreateView):
     model = Comment
     form_class = CommentForm
     template_name = "blog/new_comment.html"
@@ -208,3 +224,6 @@ class NewCommentView(generic.CreateView):
 
     def get_success_url(self):
         return reverse_lazy("blog:detail", args=[self.kwargs["pk"]])
+    
+    def test_func(self):
+        return self.request.user.is_authenticated
