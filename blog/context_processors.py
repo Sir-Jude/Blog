@@ -1,4 +1,4 @@
-from .models import Category
+from blog.models import Category
 
 def category_menu(request):
     return {
