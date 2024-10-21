@@ -14,17 +14,7 @@ from .models import Post, Category, Comment
 # Create your views here.
 
 
-class BaseCategoryView(generic.View):
-    def get_category_menu(self):
-        return Category.objects.all().order_by("name")
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["category_menu"] = self.get_category_menu()
-        return context
-    
-
-class HomeView(BaseCategoryView, generic.ListView):
+class HomeView(generic.ListView):
     template_name = "blog/home.html"
     context_object_name = "latest_post_list"
     ordering = ["-pub_date"]
@@ -41,7 +31,7 @@ class HomeView(BaseCategoryView, generic.ListView):
         ]
         
 
-class CategoryView(BaseCategoryView, generic.ListView):
+class CategoryView(generic.ListView):
     model = Post
     template_name = "blog/categories.html"
     context_object_name = "category_posts"
@@ -59,7 +49,7 @@ class CategoryView(BaseCategoryView, generic.ListView):
         return context
 
 
-class DetailView(BaseCategoryView, generic.DetailView):
+class DetailView(generic.DetailView):
     model = Post
     template_name = "blog/detail.html"
 
@@ -77,7 +67,7 @@ class DetailView(BaseCategoryView, generic.DetailView):
         return context
 
 
-class NewPostView(UserPassesTestMixin, BaseCategoryView, generic.CreateView):
+class NewPostView(UserPassesTestMixin, generic.CreateView):
     model = Post
     form_class = PostForm
     template_name = "blog/new_post.html"
@@ -124,7 +114,7 @@ def custom_upload_function(request):
     
     return JsonResponse({"error": "Invalid request"}, status=400)
 
-class NewCategoryView(UserPassesTestMixin, BaseCategoryView, generic.CreateView):
+class NewCategoryView(UserPassesTestMixin, generic.CreateView):
     model = Category
     template_name = "blog/new_category.html"
     fields = "__all__"
@@ -144,7 +134,7 @@ class NewCategoryView(UserPassesTestMixin, BaseCategoryView, generic.CreateView)
         return self.request.user.is_authenticated and self.request.user.is_superuser
     
 
-class EditPostView(UserPassesTestMixin, BaseCategoryView, generic.UpdateView):
+class EditPostView(UserPassesTestMixin, generic.UpdateView):
     model = Post
     template_name = "blog/edit_post.html"
     form_class = EditPostForm
@@ -160,7 +150,7 @@ class EditPostView(UserPassesTestMixin, BaseCategoryView, generic.UpdateView):
         return self.request.user.is_authenticated and self.request.user.is_superuser
     
 
-class DeletePostView(UserPassesTestMixin, BaseCategoryView, generic.DeleteView):
+class DeletePostView(UserPassesTestMixin, generic.DeleteView):
     model = Post
     template_name = "blog/delete_post.html"
 
@@ -206,7 +196,7 @@ class CommentView(UserPassesTestMixin,generic.CreateView):
         return self.request.user.is_authenticated
 
 
-class NewCommentView(UserPassesTestMixin, BaseCategoryView, generic.CreateView):
+class NewCommentView(UserPassesTestMixin, generic.CreateView):
     model = Comment
     form_class = CommentForm
     template_name = "blog/new_comment.html"
