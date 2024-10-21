@@ -39,14 +39,7 @@ class HomeView(BaseCategoryView, generic.ListView):
         return Post.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[
             :5
         ]
-
-
-def CategoryListView(request):
-    category_menu_list = Category.objects.all().order_by("name")
-    return render(
-        request, "blog/category-list.html", {"category_menu_list": category_menu_list}
-    )
-
+        
 
 class CategoryView(BaseCategoryView, generic.ListView):
     model = Post
@@ -135,9 +128,6 @@ class NewCategoryView(UserPassesTestMixin, BaseCategoryView, generic.CreateView)
     model = Category
     template_name = "blog/new_category.html"
     fields = "__all__"
-
-    def get_success_url(self):
-        return reverse_lazy("blog:category-list")
 
     def form_valid(self, form):
         # Get the category name

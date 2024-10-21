@@ -10,7 +10,6 @@ urlpatterns = [
     path("<int:pk>/edit/", views.EditPostView.as_view(), name="edit_post"),
     path("<int:pk>/delete/", views.DeletePostView.as_view(), name="delete_post"),
     path("category/<str:cats>/", views.CategoryView.as_view(), name="category"),
-    path("category-list/", views.CategoryListView, name="category-list"),
     path("<int:pk>/like", views.LikeView, name="like_post"),
     path("<int:pk>/new_comment/", views.NewCommentView.as_view(), name="new_comment"),
 ]

@@ -34,26 +34,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item me-2">
-              {% if category_menu %}
-                <div class="nav-item dropdown me-2">
-                  <a class="btn btn-outline-light dropdown-toggle me-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Categories
-                  </a>
-                  <ul class="dropdown-menu">
-                    {% for item in category_menu %}
-                      <a class="dropdown-item" href="{% url 'blog:category' item %}">{{ item }}</a>
-                    {% endfor %}
-                  </ul>
-                </div>
-              {% else %}
-              <li class="nav-item me-2">
-                <a
-                  href="{% url 'blog:category-list' %}"
-                  class="btn btn-outline-light me-2"
-                  style="margin: 0; border: none"
-                >Category list</a>
-              </li>
-              {% endif %}
+              <div class="nav-item dropdown me-2">
+                <a class="btn btn-outline-light dropdown-toggle me-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Categories
+                </a>
+                <ul class="dropdown-menu">
+                  {% for item in category_menu %}
+                    <a class="dropdown-item" href="{% url 'blog:category' item %}">{{ item }}</a>
+                  {% endfor %}
+                </ul>
+              </div>
             </li>
             <div class="d-flex align-items-center">
               {% if user.is_authenticated %}
