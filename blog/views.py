@@ -86,7 +86,6 @@ class NewPostView(UserPassesTestMixin, generic.CreateView):
         return reverse_lazy("blog:detail", args=[self.object.pk])
 
     def form_valid(self, form):
-        # You can add any extra logic here before the form is saved if needed
         return super().form_valid(form)
     
     def test_func(self):
@@ -143,7 +142,6 @@ class EditPostView(UserPassesTestMixin, generic.UpdateView):
         return reverse_lazy("blog:home")
 
     def form_valid(self, form):
-        # You can perform additional actions here if needed
         return super().form_valid(form)
 
     def test_func(self):

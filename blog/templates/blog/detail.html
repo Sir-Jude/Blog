@@ -45,7 +45,7 @@
       </form>
     {% else %}
       👍 {{ total_likes }}
-      <p><small>(Login to like/comment)</small></p>
+      <p><small>(<a href="{% url 'login' %}">Login</a> to like/comment)</small></p>
     {% endif %}
   </div>
 
@@ -56,14 +56,14 @@
     {% if not post.blog_comment_related.all %}
       {% if user.is_authenticated %}
         <h6>There are no comments yet: be the first to say something!</h6>
-        <a href="{% url 'blog:new_comment' post.id %}" class="text-white">Add a comment</a>
+        <p><a href="{% url 'blog:new_comment' post.id %}">Add a comment</a></p>
       {% else %}
         <h6>Login to leave a comment below this post.</h6>
       {% endif %}
     {% else %}
       {% if user.is_authenticated %}
         <div>
-          <p><a href="{% url 'blog:new_comment' post.id %}" class="text-white">Add a comment</a></p>
+          <p><a href="{% url 'blog:new_comment' post.id %}">Add a comment</a></p>
         </div>
       {% endif %}
     {% endif %}

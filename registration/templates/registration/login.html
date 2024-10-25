@@ -9,10 +9,19 @@
       <fieldset>
         <legend><h2>Login...</h2></legend>
         <p>
-          {{ form.as_p }}
+          <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" class="form-control" name="username">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" class="form-control" name="password">
+          </div>
         </p>
       </fieldset>
       <button type="submit" class="btn btn-success">Login</button>
     </form>
+      <br>
+      Don't you have an account? <a href="{% url 'registration:register' %}">Register here</a>
   </div>  
 {% endblock content %}
