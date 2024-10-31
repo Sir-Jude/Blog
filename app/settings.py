@@ -88,6 +88,7 @@ else:
         }
     }
 
+AUTH_USER_MODEL = 'registration.User'
 
 TESTING = "test" in sys.argv
 
@@ -103,6 +104,7 @@ INSTALLED_APPS = [
     "registration",
     "django_extensions",
     "django_ckeditor_5",
+    "django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig",
 ]
 
 # Add debug toolbar only when not running tests
