@@ -29,19 +29,19 @@ class HomeView(generic.ListView):
         return Post.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[
             :5
         ]
-        
+
 
 class CategoryView(generic.ListView):
     model = Post
     template_name = "blog/categories.html"
     context_object_name = "category_posts"
-    
+
     def get_queryset(self):
         # Get the category name from the URL parameter
         cats = self.kwargs.get("cats", "").replace("-", " ")
         # Filter posts by category name
         return Post.objects.filter(category__name=cats)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         cats = self.kwargs.get("cats", "").title().replace("-", " ")
@@ -87,31 +87,33 @@ class NewPostView(UserPassesTestMixin, generic.CreateView):
 
     def form_valid(self, form):
         return super().form_valid(form)
-    
+
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_superuser
-    
+
 
 # Check if the user has admin privileges
 def is_admin(user):
     return user.is_authenticated and user.is_superuser
 
+
 @user_passes_test(is_admin)
 def custom_upload_function(request):
     if request.method == "POST" and request.FILES.get("upload"):
         uploaded_file = request.FILES["upload"]
-        
-        if not uploaded_file.name.endswith(('.png', '.jpg', '.jpeg', '.gif')):
+
+        if not uploaded_file.name.endswith((".png", ".jpg", ".jpeg", ".gif")):
             return JsonResponse({"error": "Invalid file type"}, status=400)
-        
+
         # Generate a name for the uploaded file
         file_name = default_storage.save(uploaded_file.name, uploaded_file)
         # Generate a URL to the uploaded file
         file_url = default_storage.url(file_name)
         # Return a JSON response with the uploaded file URL
         return JsonResponse({"url": file_url})
-    
+
     return JsonResponse({"error": "Invalid request"}, status=400)
+
 
 class NewCategoryView(UserPassesTestMixin, generic.CreateView):
     model = Category
@@ -131,7 +133,7 @@ class NewCategoryView(UserPassesTestMixin, generic.CreateView):
 
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_superuser
-    
+
 
 class EditPostView(UserPassesTestMixin, generic.UpdateView):
     model = Post
@@ -146,7 +148,7 @@ class EditPostView(UserPassesTestMixin, generic.UpdateView):
 
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_superuser
-    
+
 
 class DeletePostView(UserPassesTestMixin, generic.DeleteView):
     model = Post
@@ -157,7 +159,7 @@ class DeletePostView(UserPassesTestMixin, generic.DeleteView):
 
     def form_valid(self, form):
         return super().form_valid(form)
-    
+
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_superuser
 
@@ -174,7 +176,7 @@ def LikeView(request, pk):
     return HttpResponseRedirect(reverse("blog:detail", args=[str(pk)]))
 
 
-class CommentView(UserPassesTestMixin,generic.CreateView):
+class CommentView(UserPassesTestMixin, generic.CreateView):
     model = Comment
     template_name = "blog/post.html"
     fields = "__all__"
@@ -189,7 +191,7 @@ class CommentView(UserPassesTestMixin,generic.CreateView):
 
     def get_success_url(self):
         return reverse("blog:detail", args=[self.kwargs["post_id"]])
-    
+
     def test_func(self):
         return self.request.user.is_authenticated
 
@@ -214,6 +216,6 @@ class NewCommentView(UserPassesTestMixin, generic.CreateView):
 
     def get_success_url(self):
         return reverse_lazy("blog:detail", args=[self.kwargs["pk"]])
-    
+
     def test_func(self):
         return self.request.user.is_authenticated

@@ -24,7 +24,9 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=255)
     # text = models.TextField()
-    text=CKEditor5Field('Text', config_name='extends', default='', blank=True, null=True)
+    text = CKEditor5Field(
+        "Text", config_name="extends", default="", blank=True, null=True
+    )
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,

@@ -26,7 +26,10 @@ from blog.views import HomeView, custom_upload_function
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('images/favicon.ico'))),
+    path(
+        "favicon.ico",
+        RedirectView.as_view(url=staticfiles_storage.url("images/favicon.ico")),
+    ),
     path("", HomeView.as_view(), name="home"),
     path("blog/", include("blog.urls")),
     path("registration/", include("django.contrib.auth.urls")),
