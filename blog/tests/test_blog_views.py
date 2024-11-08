@@ -1,5 +1,6 @@
 import pytest
 from django.urls import reverse
+from blog.models import Post
 
 
 @pytest.mark.django_db
@@ -11,8 +12,8 @@ def test_home(client):
 
 
 @pytest.mark.django_db
-def test_category(client, test_category):
-    url = reverse("blog:category", args=[test_category.id])
+def test_category(client, category):
+    url = reverse("blog:category", args=[category.id])
     response = client.get(url)
 
     assert response.status_code == 200
@@ -20,11 +21,11 @@ def test_category(client, test_category):
 
 
 @pytest.mark.django_db
-def test_detail(client, test_user, test_post):
-    test_post.likes.add(test_user)
-    url = reverse("blog:detail", args=[test_post.pk])
+def test_detail(client, user, post):
+    post.likes.add(user)
+    url = reverse("blog:detail", args=[post.pk])
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.context["total_likes"] == test_post.total_likes()
-    assert test_post.title in response.content.decode()
+    assert response.context["total_likes"] == post.total_likes()
+    assert post.title in response.content.decode()
