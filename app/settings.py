@@ -38,6 +38,7 @@ if IS_PRODUCTION == True:
     DEBUG = False
     ALLOWED_HOSTS = ["blog-qr1m.onrender.com", "just-a-bit.com", "www.just-a-bit.com"]
 
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True

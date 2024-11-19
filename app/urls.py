@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('app/', include('app.urls'))
 """
 
+import os
+from dotenv import load_dotenv
 from django.conf import settings
 from django.contrib import admin
 from django.views.generic.base import RedirectView
@@ -24,8 +26,10 @@ from django.conf.urls.static import static
 from django.urls import include, path
 from blog.views import HomeView, custom_upload_function
 
+load_dotenv()
+
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("t5i3h7a/", admin.site.urls),
     path(
         "favicon.ico",
         RedirectView.as_view(url=staticfiles_storage.url("images/favicon.ico")),
