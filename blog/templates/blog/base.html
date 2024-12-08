@@ -5,43 +5,45 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {% load static %}
-
     <!-- Favicon -->
-    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-
-    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
-
+    <link rel="icon"
+          href="{% static 'images/favicon.ico' %}"
+          type="image/x-icon">
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'blog/css/styles.css' %}">
     <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <title>{% block title %} {% endblock title %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous" />
+    <title>
+      {% block title %}
+      {% endblock title %}
+    </title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg custom-navbar">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'blog:home' %}">My blog</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item me-2">
               <div class="nav-item dropdown me-2">
-                <a class="btn btn-outline-light dropdown-toggle me-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Categories
-                </a>
+                <a class="btn btn-outline-light dropdown-toggle me-2"
+                   href="#"
+                   role="button"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false">Categories</a>
                 <ul class="dropdown-menu">
                   {% for item in category_menu %}
                     <a class="dropdown-item" href="{% url 'blog:category' item %}">{{ item }}</a>
@@ -53,72 +55,73 @@
               {% if user.is_authenticated %}
                 {% if user.is_superuser %}
                   <li class="nav-item me-2">
-                    <a
-                      href="{% url 'blog:new_post' %}"
-                      class="btn btn-outline-light me-2"
-                      style="margin: 0; border: none"
-                    >New post</a>
+                    <a href="{% url 'blog:new_post' %}"
+                       class="btn btn-outline-light me-2"
+                       style="margin: 0;
+                              border: none">New post</a>
                   </li>
                   <li class="nav-item me-2">
-                    <a
-                      href="{% url 'blog:add_category' %}"
-                      class="btn btn-outline-light me-2"
-                      style="margin: 0; border: none"
-                    >Add category</a>
+                    <a href="{% url 'blog:add_category' %}"
+                       class="btn btn-outline-light me-2"
+                       style="margin: 0;
+                              border: none">Add category</a>
                   </li>
                 {% else %}
                   <li class="nav-item me-2">
-                    <a
-                      href="{% url 'registration:edit_profile' %}"
-                      class="btn btn-outline-light me-2"
-                      style="margin: 0; border: none"
-                    >Edit profile</a>
+                    <a href="{% url 'registration:edit_profile' %}"
+                       class="btn btn-outline-light me-2"
+                       style="margin: 0;
+                              border: none">Edit profile</a>
                   </li>
                 {% endif %}
                 <li class="nav-item">
                   <form method="POST" action="{% url 'logout' %}" class="d-inline">
                     {% csrf_token %}
-                    <button
-                      type="submit"
-                      class="btn btn-outline-light me-2"
-                      style="margin: 0; border: none"
-                    >
-                      Logout
-                    </button>
+                    <button type="submit"
+                            class="btn btn-outline-light me-2"
+                            style="margin: 0;
+                                   border: none">Logout</button>
                   </form>
                 </li>
               {% else %}
                 <li class="nav-item me-2">
-                  <a
-                    href="{% url 'registration:register' %}"
-                    class="btn btn-outline-light me-2"
-                    style="padding: 0; margin: 0; border: none"
-                  >Register</a>
+                  <a href="{% url 'registration:register' %}"
+                     class="btn btn-outline-light me-2"
+                     style="padding: 0;
+                            margin: 0;
+                            border: none">Register</a>
                 </li>
                 <li class="nav-item me-2">
-                  <a
-                    href="{% url 'login' %}"
-                    class="btn btn-outline-light me-2"
-                    style="padding: 0; margin: 0; border: none"
-                  >Login</a>
+                  <a href="{% url 'login' %}"
+                     class="btn btn-outline-light me-2"
+                     style="padding: 0;
+                            margin: 0;
+                            border: none">Login</a>
                 </li>
               {% endif %}
             </div>
           </ul>
         </div>
       </div>
-    </nav>        
+    </nav>
     <br>
     <p>
       <div class="text-container">
-        <div class="container" style="max-width: 800px; margin: 0 auto; color: white;">
+        <div class="container"
+             style="max-width: 800px;
+                    margin: 0 auto;
+                    color: white">
           {% if messages %}
             <div>
               {% for message in messages %}
-              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                     role="alert">
+                  {{ message }}
+                  <button type="button"
+                          class="btn-close"
+                          data-bs-dismiss="alert"
+                          aria-label="Close"></button>
+                </div>
               {% endfor %}
             </div>
           {% endif %}
@@ -127,10 +130,8 @@
         </div>
       </div>
     </p>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
   </body>
 </html>

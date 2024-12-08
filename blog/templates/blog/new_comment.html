@@ -3,20 +3,21 @@
   Add a new comment...
 {% endblock title %}
 {% block content %}
-{% if user.is_authenticated %}
-  <div class="form-group">
-    <form method="POST">
-      {% csrf_token %}
-      <fieldset>
-        <legend><h2>Add a new comment...</h2></legend>
-        <p>
-          {{ form.as_p }}
-        </p>
-      </fieldset>
-      <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>
-      <button type="submit" class="btn btn-success">Comment</button>
-    </form>
-  </div>
-{% else %}
-{% include "blog/errors/403_users.html" %}{% endif %}
+  {% if user.is_authenticated %}
+    <div class="form-group">
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset>
+          <legend>
+            <h2>Add a new comment...</h2>
+          </legend>
+          <p>{{ form.as_p }}</p>
+        </fieldset>
+        <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-success">Comment</button>
+      </form>
+    </div>
+  {% else %}
+    {% include "blog/errors/403_users.html" %}
+  {% endif %}
 {% endblock content %}

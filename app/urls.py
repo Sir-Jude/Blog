@@ -29,7 +29,7 @@ from blog.views import HomeView, custom_upload_function
 load_dotenv()
 
 urlpatterns = [
-    path(os.getenv("ADMIN_URL"), admin.site.urls),
+    path(os.getenv("ADMIN_URL", "admin/"), admin.site.urls),
     path(
         "favicon.ico",
         RedirectView.as_view(url=staticfiles_storage.url("images/favicon.ico")),

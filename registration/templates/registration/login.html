@@ -7,7 +7,9 @@
     <form method="POST">
       {% csrf_token %}
       <fieldset>
-        <legend><h2>Login...</h2></legend>
+        <legend>
+          <h2>Login...</h2>
+        </legend>
         <p>
           <div class="mb-3">
             <label for="username" class="form-label">Username:</label>
@@ -21,7 +23,7 @@
       </fieldset>
       <button type="submit" class="btn btn-success">Login</button>
     </form>
-      <br>
-      Don't you have an account? <a href="{% url 'registration:register' %}">Register here</a>
-  </div>  
+    <br>
+    Don't you have an account? <a href="{% url 'registration:register' %}">Register here</a>
+  </div>
 {% endblock content %}

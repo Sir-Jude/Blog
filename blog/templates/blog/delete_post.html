@@ -3,22 +3,25 @@
   Delete post
 {% endblock title %}
 {% block content %}
-{% if user.is_authenticated and user.is_superuser %}
-  <div class="form-group">
-    <form method="POST">
-      {% csrf_token %}
-      <fieldset>
-        <p>
-          <legend><h2>Delete: "{{ post.title }}"</h2></legend>
-        </p>
-        <p>
-          <strong>Are you sure you would like to delete it?!</strong>
-        </p>
-      </fieldset>
-      <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>
-      <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
-  </div>
-{% else %}
-{% include "blog/errors/403_admin.html" %}{% endif %}
+  {% if user.is_authenticated and user.is_superuser %}
+    <div class="form-group">
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset>
+          <p>
+            <legend>
+              <h2>Delete: "{{ post.title }}"</h2>
+            </legend>
+          </p>
+          <p>
+            <strong>Are you sure you would like to delete it?!</strong>
+          </p>
+        </fieldset>
+        <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  {% else %}
+    {% include "blog/errors/403_admin.html" %}
+  {% endif %}
 {% endblock content %}
