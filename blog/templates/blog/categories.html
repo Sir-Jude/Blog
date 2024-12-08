@@ -1,45 +1,41 @@
 {% extends 'blog/base.html' %}
 {% block title %}
-Categories
+  Categories
 {% endblock title %}
 {% block content %}
-{% if category_posts %}
-<header>
-  <h2>Category: "{{ cats }}"</h2>
-</header>
-<main>
-  <ul>
-    {% for post in category_posts %}
-    <li class="mb-5">
-      <div>
-        <h4 style="display: inline;">
-          <a href="{% url 'blog:detail' post.id %}">
-            <strong>{{ post.title }}</strong>
-          </a>
-        </h4>
-      <p>{{ post.text|slice:"200"|safe }}...</p>
-      <p>Posted on the: {{ post.pub_date }}</p>
-      {% if post.last_edited != None %}
-        <p>
-          Last modified on: {{ post.last_edited }}
-        </p>
-      {% endif %}
-      <p>
-        {% if user.is_authenticated and user.is_superuser %}
-        <small>
-          (<a href="{% url 'blog:edit_post' post.id %}">Edit</a>)
-          (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
-        </small>
-        {% endif %}
-      </p>
-    </li>
-    {% endfor %}
-  </ul>
-</main>
-{% else %}
-<h2>There are no posts associated with this category.</h2>
-{% endif %}
-<footer>
-  <p></p>
-</footer>
-{% endblock content %}
+  {% if category_posts %}
+    <header>
+      <h2>Category: "{{ cats }}"</h2>
+    </header>
+    <main>
+      <ul>
+        {% for post in category_posts %}
+          <li class="mb-5">
+            <div>
+              <h4 style="display: inline;">
+                <a href="{% url 'blog:detail' post.id %}">
+                  <strong>{{ post.title }}</strong>
+                </a>
+              </h4>
+              <p>{{ post.text|slice:"200"|safe }}...</p>
+              <p>Posted on the: {{ post.pub_date }}</p>
+              {% if post.last_edited != None %}<p>Last modified on: {{ post.last_edited }}</p>{% endif %}
+              <p>
+                {% if user.is_authenticated and user.is_superuser %}
+                  <small>
+                    (<a href="{% url 'blog:edit_post' post.id %}">Edit</a>)
+                    (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
+                  </small>
+                {% endif %}
+              </p>
+            </li>
+          {% endfor %}
+        </ul>
+      </main>
+    {% else %}
+      <h2>There are no posts associated with this category.</h2>
+    {% endif %}
+    <footer>
+      <p></p>
+    </footer>
+  {% endblock content %}

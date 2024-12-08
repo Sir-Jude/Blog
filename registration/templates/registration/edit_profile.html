@@ -7,13 +7,13 @@
     <form method="POST">
       {% csrf_token %}
       <fieldset>
-        <legend><h2>Edit profile...</h2></legend>
-        <p>
-          {{ form.as_p }}
-        </p>
+        <legend>
+          <h2>Edit profile...</h2>
+        </legend>
+        <p>{{ form.as_p }}</p>
       </fieldset>
       <a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>
       <button type="submit" class="btn btn-success">Update</button>
     </form>
-  </div>  
+  </div>
 {% endblock content %}

@@ -7,12 +7,12 @@
     <form method="POST">
       {% csrf_token %}
       <fieldset>
-        <legend><h2>Register...</h2></legend>
-        <p>
-          {{ form.as_p }}
-        </p>
+        <legend>
+          <h2>Register...</h2>
+        </legend>
+        <p>{{ form.as_p }}</p>
       </fieldset>
       <button type="submit" class="btn btn-success">Register</button>
     </form>
-  </div>  
+  </div>
 {% endblock content %}

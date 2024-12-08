@@ -3,21 +3,21 @@
   Edit post
 {% endblock title %}
 {% block content %}
-{% if user.is_authenticated and user.is_superuser %}
-  <div class="form-group">
-    <form method="POST">
-      {% csrf_token %}
-      <fieldset>
-        <legend><h2>Edit the post...</h2></legend>
-        <p>
-          {{ form.as_p }}
-        </p>
-      </fieldset>
-      <a href="{% url 'blog:detail' post.pk %}" class="btn btn-secondary">Cancel</a>
-      <button type="submit" class="btn btn-success">Update</button>
-    </form>
-  </div>
-{% else %}
-  {% include "blog/errors/403_admin.html" %}
-{% endif %}
+  {% if user.is_authenticated and user.is_superuser %}
+    <div class="form-group">
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset>
+          <legend>
+            <h2>Edit the post...</h2>
+          </legend>
+          <p>{{ form.as_p }}</p>
+        </fieldset>
+        <a href="{% url 'blog:detail' post.pk %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-success">Update</button>
+      </form>
+    </div>
+  {% else %}
+    {% include "blog/errors/403_admin.html" %}
+  {% endif %}
 {% endblock content %}

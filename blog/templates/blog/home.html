@@ -1,56 +1,51 @@
 {% extends 'blog/base.html' %}
 {% block title %}
-Homepage
+  Homepage
 {% endblock title %}
 {% block content %}
-<p>
-  <header>
-    <h1>Hello, World! Welcome to my blog.</h1>
-  </header>
-</p>
-
-<main>
-  {% if latest_post_list %}
-  <ul>
-    {% for post in latest_post_list %}
-      <div>
-        <h4 style="display: inline;">
-          <a href="{% url 'blog:detail' post.id %}">
-            <strong>{{ post.title }}</strong>
-          </a>
-        </h4>
-        <small style="display: inline;">
-           – 
-          {% if post.category %}
-            <a href="{% url 'blog:category' post.category.name %}">{{ post.category.name }}</a>
-          {% else %}
-            No Category
-          {% endif %}
-        </small>        
-      </div>
-      <p>{{ post.text|slice:"200"|safe }}...</p>
-      <p>Posted on the: {{ post.pub_date }}</p>
-      <p>
-        {% if post.last_edited != None %}
+  <p>
+    <header>
+      <h1>Hello, World! Welcome to my blog.</h1>
+    </header>
+  </p>
+  <main>
+    {% if latest_post_list %}
+      <ul>
+        {% for post in latest_post_list %}
+          <div>
+            <h4 style="display: inline;">
+              <a href="{% url 'blog:detail' post.id %}">
+                <strong>{{ post.title }}</strong>
+              </a>
+            </h4>
+            <small style="display: inline;">
+              –
+              {% if post.category %}
+                <a href="{% url 'blog:category' post.category.name %}">{{ post.category.name }}</a>
+              {% else %}
+                No Category
+              {% endif %}
+            </small>
+          </div>
+          <p>{{ post.text|slice:"200"|safe }}...</p>
+          <p>Posted on the: {{ post.pub_date }}</p>
           <p>
-            Last modified on: {{ post.last_edited }}
+            {% if post.last_edited != None %}<p>Last modified on: {{ post.last_edited }}</p>{% endif %}
           </p>
-        {% endif %}
-      </p>
-      <p>
-        {% if user.is_authenticated and user.is_superuser %}
-        <small>
-          (<a href="{% url 'blog:edit_post' post.id %}">Edit</a>)
-          (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
-        </small>
-        {% endif %}
-      </p>
-      <hr class="my-4" style="border-color: white;">
-    {% endfor %}
-  </ul>
-  {% endif %}
-</main>
-<footer>
-  <p></p>
-</footer>
+          <p>
+            {% if user.is_authenticated and user.is_superuser %}
+              <small>
+                (<a href="{% url 'blog:edit_post' post.id %}">Edit</a>)
+                (<a href="{% url 'blog:delete_post' post.id %}">Delete</a>)
+              </small>
+            {% endif %}
+          </p>
+          <hr class="my-4" style="border-color: white;">
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </main>
+  <footer>
+    <p></p>
+  </footer>
 {% endblock content %}
